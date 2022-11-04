@@ -5,3 +5,6 @@
 ---
 ## 1. a태그 사용법?
 - a태그는 div와 같은 컨테이너보다 텍스트를 감싸주는 것이 좋다? -> 더 찾아보기
+---
+## 2. Next.js의 warn: Fast Refresh will fall back to doing a full reload
+- 해결을 못하다가 image에 priority넣어주니까 해결됐다... -> 더 찾아보기

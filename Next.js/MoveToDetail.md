@@ -45,3 +45,13 @@
             </Link>
         </>
     ```
+
+### 3. rewrites
+- 상세 페이지에서 데이터를 받아오는 요청 주소가 드러나길 원하지 않는다면 작성해줄 수 있다.
+- react-router-dom과 같이 변수는 ':'을 앞에 붙여주면 된다.
+    ```typescript
+        {
+            source: '/api/movies/:id',
+            destination: `https://api.themoviedb.org/3/movie/:id?api_key=${API_KEY}`,
+        }
+    ```

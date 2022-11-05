@@ -18,6 +18,7 @@
 
 ### TypeScript
 - [event의 type](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/EventType.md)
+- [Next.js의 Catch All url에서 type](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/CatchAllUrlType.md)
 
 ### JavaScript
 - [Key event 처리](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/KeyEvent.md)

@@ -38,3 +38,5 @@
     };
     ```
     - 로딩 단계를 화면에 보여주지 않고 SEO를 최적화 할 수 있다.
+
+[Next.js의 Catch All url에서 type](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/CatchAllUrlType.md)사용하는 방법 참고하기

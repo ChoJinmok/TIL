@@ -12,6 +12,7 @@
 - [Move to detail page](https://github.com/ChoJinmok/TIL/blob/master/Next.js/MoveToDetail.md)
 - [Image Optional Props](https://github.com/ChoJinmok/TIL/blob/master/Next.js/ImageOptionalProps.md)
 - [Catch All url](https://github.com/ChoJinmok/TIL/blob/master/Next.js/CatchAllUrl.md)
+- [Customizing Not Found Page](https://github.com/ChoJinmok/TIL/blob/master/Next.js/CustomNotFound.md)
 
 ### React.js
 - [jsx의 div에 이벤트 주기](https://github.com/ChoJinmok/TIL/blob/master/React.js/DivEventInJsx.md)

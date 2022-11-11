@@ -110,3 +110,16 @@ cf) [Element](https://developer.mozilla.org/ko/docs/Web/API/Element)
   => **class 사용해서 스타일 적용하기!**: CSS에 class로 스타일을 정의한 후 그 class를 요소에 추가하거나 제거하는 방식으로 스타일 조작
 - CSS는 우선순위도 복잡하고 고려해야할 것이 많다. 그렇지만 최종 계산되서 적용된 스타일을 JS로 가지고 오고 싶을 수 있다: `window.getComputedStyle(element)`를 사용하면 계산된 스타일을 가지고 올 수 있다.(CSSStyleDeclaration으로 반환)  
   -> 잘 사용되진 않지만 현재 사이즈에서 추가로 계산해서 스타일을 주고 싶은 경우에 사용할 수 있다.
+
+### 4.4. Class
+
+- **getAttribute, setAttrubute**
+  - class도 attribute중 하나이기 때문에 위의 메서드 사용가능하다.
+  - 다수의 class를 한번에 넣으려면 공백으로 구분해서 넣어주면된다.
+  - 만약 현재 class에서 새로운 class를 추가해주려면 기존의 class를 가지고 와서 새로운 class를 추가해서 다시 담아주는 방식으로 작업해야한다.
+- **classList**
+  - DOMTokenList가 반환되는데 유사배열이자 이터러블이다. -> 배열로 변환해서 조작하기
+  - 추가: `element.classList.add()`
+  - 제거: `element.classList.remove()`
+  - 확인: `element.classList.contain()`
+  - 토글: `element.classList.toggle()` (특정 스타일이 토글되는 인터페이스(버튼, 체크리스트, Todo리스트, 아코디언 등)에 유용하다.)

@@ -166,7 +166,22 @@
 - firebase 콘솔과 google의 프로젝트 인증까지 모두 세팅해줬는데 소셜 로그인이 동작되지 않았다.
 - 환경변수를 vercel에 넘겨주지 않았기 때문에 발생한 문제였다. vercel을 처음에 배포할 때도 설정해줄 수 있지만 배포 후에서 따로 환경변수를 세팅해줄 수 있다.
 
-## 3. 배포 자동화?
+## 3. 여기서도 새로고침하면 404..?
+
+- 별도의 설정을 해주지 않으면 url 변경후 새로고침하면 vercel에서도 404페이지가 뜬다.
+- `vercel.json` 생성후 rewrite을 작성해주면 해결!
+  ```json
+  {
+    "rewrites": [
+      {
+        "source": "(.*)",
+        "destination": "/index.html"
+      }
+    ]
+  }
+  ```
+
+## 4. 배포 자동화?
 
 - 기본적으로 내가 설정해놓은 branch를 자동으로 감시하고 배포하는 것 같다. 그리고 branch를 merge하기 전 제대로 돌아가는 지 확인할 수 있게 **Preview**로 배포를 해준다.
 - 추 후 **CI/CD** 더 파보기! ([링크1](https://velog.io/@tnqls1211v/TIL-Day72), [링크2](https://monicareport.tistory.com/487))

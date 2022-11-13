@@ -123,3 +123,49 @@ cf) [Element](https://developer.mozilla.org/ko/docs/Web/API/Element)
   - 제거: `element.classList.remove()`
   - 확인: `element.classList.contain()`
   - 토글: `element.classList.toggle()` (특정 스타일이 토글되는 인터페이스(버튼, 체크리스트, Todo리스트, 아코디언 등)에 유용하다.)
+
+### 계층 이동
+
+- 계층 한 단계 위로: `firstBold.parentElemnet`(무조건 단일)
+- 계층 한 단계 아래: (자식 요소는 꼭 단일하지 않다)
+  - `element.childElemnetCount` : 자식 요소의 개수 반환
+  - `element.children`: 자식 요소를 담은 HTMLCollection 반환
+- 같은 계층: 한 요소에서 인접한 형제 요소로 이동
+  - **nextSibling, previousSibling**
+    - 해당하는 DOM 노드를 반환 (DOM 노드는 Element와는 다른 것)
+    - 노드는 텍스트, 공백(텍스트) 모두 포함돼있다.
+    - 특정 브라우저는 새 줄의 공백을 텍스트 노드로 표현한다.(console에서 확인해보면 반환 문자(엔터키 같이 생김)만 있고 실제 값은 없다)
+    - 여는 태그와 닫는 태그 사이에 있는 텍스트로 노드이다.
+  - **nextElementSibling, previousElementSibling**
+    - 인접한 요소 형제를 반환
+      ⇒ 노드보다는 Elemnet가 필요한 경우가 더 많다.
+
+### 생성, 추가, 제거
+
+- 생성하고 끝이 아니라 속성, 위치 등 모두 설정해줘야한다. (ex. 이미지의 경우 src가 없으면 아무것도 보이지 않는다.)
+- 생성: `document.createElement(tagName)`
+- 추가
+  - `Element.appedChild(element)`: Element의 마지막 자식요소로 추가된다.
+  - `Node.append()`: 한 번에 여러개도 추가 할 수 있고, 바로 텍스트도 전달가능
+  - `Node.prepend()`: append와 달리 첫 번째 자녀로 삽입
+    cf) append와 prepend는 IE에서는 지원하지 않는다.
+  - `선택한요소.insertAdjacentElement(position, 추가할요소)`: 자식요소로 삽입하는 것이 아니라 입접한(형제) 요소로 삽입
+    - 특정 요소 뒤에: afterend
+    - 특정 요소 앞에: bforebegin
+    - 선택한 요소의 첫번째 자식: afterbegin
+    - 선택한 요소의 마지막 자식: beforeend
+  - `Node.after(element)`: 다른 요소 다음에 삽입
+  - `Node.before(element)`: 다른 요소 앞에 삽입
+  - cf) after와 bofore는 IE에서는 지원하지 않는다.
+- 제거
+
+  - `Node.reamoveChild()`: 제거할 요소의 부모요소를 선택한 다음 자식으로서 원하는 요소를 제거해야한다.(번거로움)
+
+    ```tsx
+    const firstLi = document.querySelector("li");
+
+    firstLi.parentElement.removeChild(firstLi);
+    ```
+
+  - `Node.remove()`: 제거할 요소에 바로 메서드 사용하면 제거된다. (IE에서 안됨)
+    `firstLi.remove()`

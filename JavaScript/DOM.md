@@ -142,24 +142,25 @@ cf) [Element](https://developer.mozilla.org/ko/docs/Web/API/Element)
 
 ### 생성, 추가, 제거
 
-- 생성하고 끝이 아니라 속성, 위치 등 모두 설정해줘야한다. (ex. 이미지의 경우 src가 없으면 아무것도 보이지 않는다.)
-- 생성: `document.createElement(tagName)`
-- 추가
+- 생성 후 속성, 위치 등 모두 설정해줘야한다. (ex. 이미지의 경우 src가 없으면 아무것도 보이지 않는다.)
+- **생성**: `document.createElement(tagName)`
+
+- **추가**
   - `Element.appedChild(element)`: Element의 마지막 자식요소로 추가된다.
   - `Node.append()`: 한 번에 여러개도 추가 할 수 있고, 바로 텍스트도 전달가능
   - `Node.prepend()`: append와 달리 첫 번째 자녀로 삽입
     cf) append와 prepend는 IE에서는 지원하지 않는다.
-  - `선택한요소.insertAdjacentElement(position, 추가할요소)`: 자식요소로 삽입하는 것이 아니라 입접한(형제) 요소로 삽입
-    - 특정 요소 뒤에: afterend
-    - 특정 요소 앞에: bforebegin
+  - `선택한요소.insertAdjacentElement(position, 추가할요소)`
+    - 특정 요소 뒤에 (형제): afterend
+    - 특정 요소 앞에 (형제): bforebegin
     - 선택한 요소의 첫번째 자식: afterbegin
     - 선택한 요소의 마지막 자식: beforeend
-  - `Node.after(element)`: 다른 요소 다음에 삽입
-  - `Node.before(element)`: 다른 요소 앞에 삽입
-  - cf) after와 bofore는 IE에서는 지원하지 않는다.
-- 제거
+  - `Node.after(element)`: 요소 다음에 삽입
+  - `Node.before(element)`: 요소 앞에 삽입
+    cf) after와 bofore는 IE에서는 지원하지 않는다.
+- **제거**
 
-  - `Node.reamoveChild()`: 제거할 요소의 부모요소를 선택한 다음 자식으로서 원하는 요소를 제거해야한다.(번거로움)
+  - `Node.reamoveChild()`: 제거할 요소의 부모요소를 선택한 다음 자식으로서 원하는 요소를 제거해야한다. (번거로움)
 
     ```tsx
     const firstLi = document.querySelector("li");
@@ -168,4 +169,6 @@ cf) [Element](https://developer.mozilla.org/ko/docs/Web/API/Element)
     ```
 
   - `Node.remove()`: 제거할 요소에 바로 메서드 사용하면 제거된다. (IE에서 안됨)
-    `firstLi.remove()`
+    ```tsx
+    firstLi.remove();
+    ```

@@ -8,7 +8,7 @@
 
 <br />
 
-# Inline Event
+## Inline Event
 
 ```html
 <button onclick="alert('you clicked me!')">Click Me!</button>
@@ -23,7 +23,7 @@
 
 - JS에서 Element의 속성을 살펴보면 내부 슬롯중 [[FunctionLocation]]의 값이 html파일인 걸 볼 수 있다.
 
-# Element의 property
+## Element의 property
 
 ```tsx
 const button = document.queySelector("button");
@@ -34,7 +34,7 @@ button.onclick = function () {
 };
 ```
 
-# addEventListener
+## addEventListener
 
 ```tsx
 const button = document.queySelector("button");
@@ -65,13 +65,13 @@ button.addEventListener("click", () => {
   - 이벤트와 이벤트 리스너가 많이 발생하는 복잡한 앱인 경우 removeEventLister로 잘 관리해줘야한다.
 - Event & this: addEventListener의 이벤트 핸들러에서 this는 addEventListener 메서드를 부른 요소이다.
 
-# 이벤트 객체
+## 이벤트 객체
 
 - 이벤트에 대한 정보를 담고 있는 객체
 - 이벤트 객체는 보통 이벤트 핸들러에 자동으로 전달된다. → 이벤트 핸들러의 첫번째 인자로 전달된다.
   ex. 클릭 이벤트에서 클릭된 좌표를 알 수 있고, 키보드 이벤트에서 어떤 키가 눌렸는지도 알 수 있다.
 
-# 키보드 이벤트에서 key, code
+## 키보드 이벤트에서 key, code
 
 - **key**: 실제로 입력된 code가 들어간다. (space → 공백)
 - **code**: 대응하는 key의 이름이 들어간다. (왼쪽 shift → ShiftLeft)
@@ -86,7 +86,7 @@ window.addEventListener('keydown', function (event) {
 }
 ```
 
-# Form Events & preventDefault
+## Form Events & preventDefault
 
 - form은 기본적으로 이벤트 핸들러가 동작한 후 action에 데이터를 전송 요청한다. (요청하면서 페이지 이동)
 - 이 과정이 빠르게 지나가서 내가 작업하려고 했던 것들이 중단되는 느낌이지만 실제로는 내가 의도한 작업이 일어나고 순식간에 페이지가 이동된다.

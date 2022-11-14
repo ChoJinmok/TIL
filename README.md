@@ -19,6 +19,7 @@
 - [Catch All url](https://github.com/ChoJinmok/TIL/blob/master/Next.js/CatchAllUrl.md)
 - [Customizing Not Found Page](https://github.com/ChoJinmok/TIL/blob/master/Next.js/CustomNotFound.md)
 - [From React to Next.js(Next.js 튜토리얼)](https://github.com/ChoJinmok/TIL/blob/master//Next.js/FromReacttoNextjs.md)
+- [How Next.js Works](https://github.com/ChoJinmok/TIL/blob/master//Next.js/HowNextjsWorks.md)
 
 ### React.js
 

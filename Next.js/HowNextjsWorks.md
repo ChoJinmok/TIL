@@ -64,3 +64,21 @@ cf) syntax highlighting은 코드 에디터에서 제공해주는 기능이라 �
 ![Bundling](./images/building.png)
 
 **번들링**: 종속성 웹을 해결하고 파일(또는 모듈)을 브라우저에 최적화된 번들로 병합(또는 '패키징')하는 프로세스 -> 사용자가 웹 페이지를 방문할 때 파일에 대한 요청 수를 줄여준다.
+
+<br />
+
+## 5. Code Splitting
+
+일반적으로 애플리케이션을 서로 다른 URL에서 액세스할 수 있는 여러 페이지로 분할한다. 각 페이지는 어플리케이션의 진입점이 된다.
+
+**코드 분할**: 애플리케이션의 번들을 각 진입점에 필요한 작은 청크로 분할하는 프로세스 -> 해당 페이지를 실행하는 데 필요한 코드만 로드하여 애플리케이션의 초기 로드 시간을 개선
+
+![CodeSplitting](./images/codeSplitting.png)
+
+Next.js는 코드 분할을 기본적으로 지원한다. `pages/` 디렉토리 내의 각 파일은 빌드 단계에서 자체 자바스크립트 번들로 자동으로 코드 분할된다.
+
+Further:
+
+- 페이지 간에 공유되는 모든 코드는 추가 탐색에서 동일한 코드를 다시 다운로드하지 않도록 다른 번들로 분할된다.
+- 초기 페이지 로드 후 Next.js는 사용자가 탐색할 가능성이 있는 다른 페이지의 [코드를 미리 로드](https://nextjs.org/docs/api-reference/next/link)할 수 있다.
+- [Dynamic imports](https://nextjs.org/docs/advanced-features/dynamic-import): 처음에 로드된 코드를 수동으로 분할하는 방법

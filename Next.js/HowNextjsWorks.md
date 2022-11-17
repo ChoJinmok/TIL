@@ -82,3 +82,20 @@ Further:
 - 페이지 간에 공유되는 모든 코드는 추가 탐색에서 동일한 코드를 다시 다운로드하지 않도록 다른 번들로 분할된다.
 - 초기 페이지 로드 후 Next.js는 사용자가 탐색할 가능성이 있는 다른 페이지의 [코드를 미리 로드](https://nextjs.org/docs/api-reference/next/link)할 수 있다.
 - [Dynamic imports](https://nextjs.org/docs/advanced-features/dynamic-import): 처음에 로드된 코드를 수동으로 분할하는 방법
+
+<br />
+
+## 6. Build Time vs. Runtime
+
+**Build time**(or build step): 프로덕션을 위해 애플리케이션 코드를 준비하는 일련의 단계 명칭
+
+애플리케이션을 빌드할 때 Next.js는 [서버](https://nextjs.org/learn/foundations/how-nextjs-works/client-and-server)에 배포해서 사용자가 사용할 수 있게 코드를 프로덕션 최적화 파일로 변환한다. 변환 파일은 다음을 포함한다:
+
+- 정적 페이지용 HTML 파일
+- [서버](https://nextjs.org/learn/foundations/how-nextjs-works/client-and-server)에서 페이지를 [렌더링](https://nextjs.org/learn/foundations/how-nextjs-works/rendering)하기 위한 JavaScript 코드
+- [클라이언트](https://nextjs.org/learn/foundations/how-nextjs-works/client-and-server)에서 interactive한 페이지를 만들기 위한 JavaScript 코드
+- CSS 파일
+
+<br />
+
+**Runtime**(or request time): 애플리케이션이 빌드 및 배포된 후 사용자 요청에 대한 응답으로 애플리케이션이 실행되는 기간

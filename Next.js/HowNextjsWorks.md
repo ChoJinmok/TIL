@@ -107,3 +107,53 @@ Further:
 웹 애플리케이션에서 **클라이언트**는 응용 프로그램 코드에 대한 요청을 서버에 보내는 사용자 장치의 브라우저를 가리킨다. 클라이언트는 서버에서 받은 응답을 사용자와 상호 작용하는 인터페이스로 바꾼다.
 
 **서버**: 애플리케이션 코드를 저장하고, 클라이언트로부터 요청을 받고, 계산을 수행하고, 적절한 응답을 다시 보내는 데이터 센터의 컴퓨터
+
+<br />
+
+## 8. Rendering
+
+### 8.1. What is Rendering?
+
+**렌더링**: React에서 작성한 코드(JSX)를 UI의 HTML으로 변환하는 프로세스
+
+렌더링은 서버 또는 클라이언트에서, build time 또는 runtime의 모든 요청에서 발생할 수 있다.
+
+Next.js를 사용하면 서버 사이드 렌더링(SSR), 정적 사이트 생성(SSG) 및 클라이언트 사이드 렌더링(CSR) 세 가지 렌더링 방법을 사용할 수 있다.
+
+### 8.2. Pre-Rendering
+
+서버 사이드 렌더링(SSR) 및 정적 사이트 생성(SSG)은 결과물을 클라이언트로 전송하기 전에 외부 데이터를 가져와서 React component들을 HTML로 변환하기 때문에 **Pre-Rendering**이라고도 한다.
+
+### 8.3. Client-Side Rendering vs. Pre-Rendering
+
+표준 React 애플리케이션에서 브라우저는 UI를 구성하기 위해 서버에서 JavaScript와 빈 HTML을 받는다. 초기 렌더링 작업은 사용자 장치에서 발생하므로 이를 클라이언트 측 렌더링이라고 한다.
+
+![Client-side Rendering](./images/CSR.png)
+
+> React의 useEffect() 또는 [useSWR](https://swr.vercel.app/ko)과 같은 data fetching hook으로 데이터를 가져오도록 해서 Next.js 애플리케이션의 특정 component가 클라이언트 사이드 렌더링하도록 할 수 있다.
+
+Next.js는 기본적으로 모든 페이지를 **pre-render**한다. pre-rendering은 HTML이 사용자 장치의 JavaScript에 의해 모두 생성되는 대신 서버에서 미리 생성됨을 의미한다.
+
+완전히 클라이언트 사이드 렌더링된 앱의 경우 렌더링 작업이 수행되는 동안 사용자는 빈 페이지를 보게된다. 사용자가 구성된 HTML을 볼 수 있는 pre-rendering 앱과 비교해보자:
+
+![Pre-Rendering](./images/pre-rendering.png)
+
+### 8.4. Server-Side Rendering
+
+서버 사이드 렌더링을 사용하면 페이지의 HTML이 각 요청에 따라 서버에서 생성된다. 그런 다음 생성된 HTML, JSON 데이터 및 페이지를 interactive하게 만들기 위한 JavaScript가 클라이언트로 전송된다.
+
+클라이언트에서 pre-render 한 HTML로 non-interactive 한 페이지를 빠르게 보여주는 동안 React가 JSON 데이터 및 JavaScript로 component를 interactive 하게 만든다 (ex. 버튼에 이벤트 핸들러 첨부). 이 과정을 **hydration**이라고 한다.
+
+Next.js에서 [getServerSideProps](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props)를 사용하여 서버 사이드 렌더링 페이지를 구현할 수 있다.
+
+> React 18 및 Next 12에는 **React server components**의 알파 버전이 도입되었다. Server components는 서버에서 완전히 렌더링되며 렌더링을 위해 클라이언트 사이드 JavaScript가 필요하지 않다. 또한 server components를 사용하면 로직은 서버에 두고 로직의 결과만 클라이언트에 보낼 수 있다. 이렇게 하면 클라이언트로 전송되는 번들 크기가 줄어들고 클라이언트 측 렌더링 성능이 향상된다. [React server components에 대해 자세히 알아보기](https://reactjs.org/blog/2020/12/21/data-fetching-with-react-server-components.html).
+
+### 8.5. Static Site Generation
+
+정적 사이트 생성을 사용하면 HTML이 서버에서 생성되지만 서버 사이드 렌더링과 달리 런타임에는 서버가 없다. 대신 콘텐츠는 애플리케이션이 배포되는 build time에 한 번 생성되며 HTML은 [CDN](https://nextjs.org/learn/foundations/how-nextjs-works/cdns-and-edge)에 저장되고 각 요청에 대해 재사용된다.
+
+Next.js에서 [getStaticProps](https://nextjs.org/docs/basic-features/data-fetching/get-static-props)를 사용하여 페이지를 정적으로 생성할 수 있다.
+
+> [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration)을 사용하여 사이트를 구축한 후 정적 페이지를 만들거나 업데이트할 수 있다. 즉, 데이터가 변경되더라도 전체 사이트를 재구축할 필요가 없다.
+
+Next.js의 장점은 정적 사이트 생성, 서버 사이드 렌더링 또는 클라이언트 사이드 렌더링 중 페이지별로 가장 적절한 렌더링 방법을 선택할 수 있다는 것이다. 적합한 렌더링 방법을 선택하는 것에 대해 자세히 알고싶다면 [data fetching docs](https://nextjs.org/docs/basic-features/data-fetching/overview)를 참조.

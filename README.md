@@ -10,16 +10,17 @@
 
 - 🍞 [빵 부스러기 저장소](https://github.com/ChoJinmok/TIL/blob/master/ETC/BreadCrumbs.md)
 - [배포](https://github.com/ChoJinmok/TIL/blob/master/ETC/Deploy.md)
+- [인가 (Authorization)](https://github.com/ChoJinmok/TIL/blob/master/ETC/Authorization.md)
 
 ### Next.js
 
+- [How Next.js Works](https://github.com/ChoJinmok/TIL/blob/master//Next.js/HowNextjsWorks.md)
 - [Dynamic Routes](https://github.com/ChoJinmok/TIL/blob/master/Next.js/DynamicRoutes.md)
 - [Move to detail page](https://github.com/ChoJinmok/TIL/blob/master/Next.js/MoveToDetail.md)
 - [Image Optional Props](https://github.com/ChoJinmok/TIL/blob/master/Next.js/ImageOptionalProps.md)
 - [Catch All url](https://github.com/ChoJinmok/TIL/blob/master/Next.js/CatchAllUrl.md)
 - [Customizing Not Found Page](https://github.com/ChoJinmok/TIL/blob/master/Next.js/CustomNotFound.md)
 - [From React to Next.js(Next.js 튜토리얼)](https://github.com/ChoJinmok/TIL/blob/master//Next.js/FromReacttoNextjs.md)
-- [How Next.js Works](https://github.com/ChoJinmok/TIL/blob/master//Next.js/HowNextjsWorks.md)
 
 ### React.js
 

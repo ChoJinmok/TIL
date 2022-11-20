@@ -157,3 +157,41 @@ Next.js에서 [getStaticProps](https://nextjs.org/docs/basic-features/data-fetch
 > [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration)을 사용하여 사이트를 구축한 후 정적 페이지를 만들거나 업데이트할 수 있다. 즉, 데이터가 변경되더라도 전체 사이트를 재구축할 필요가 없다.
 
 Next.js의 장점은 정적 사이트 생성, 서버 사이드 렌더링 또는 클라이언트 사이드 렌더링 중 페이지별로 가장 적절한 렌더링 방법을 선택할 수 있다는 것이다. 적합한 렌더링 방법을 선택하는 것에 대해 자세히 알고싶다면 [data fetching docs](https://nextjs.org/docs/basic-features/data-fetching/overview)를 참조.
+
+<br/>
+
+## 9. CDNs and the Edge
+
+### 9.1. What is the Network?
+
+네트워크에 배포된 후 애플리케이션 코드가 저장되고 실행되는 위치를 아는 것은 도움이 될 수 있다. 네트워크는 리소스를 공유할 수 있는 컴퓨터(또는 서버)로 보면 된다. Next.js 애플리케이션의 경우 애플리케이션 코드를 **원본 서버**, **CDN(Content Delivery Network)** 및 **Edge**에 배포할 수 있다.
+
+#### `Origin Servers (원본 서버)`
+
+앞에서 설명한 것처럼 서버는 애플리케이션 코드의 원래 버전을 저장하고 실행하는 주 컴퓨터를 가리킨다.
+
+**CDN 서버** 및 **에지 서버**와 같이 응용 프로그램 코드가 배포될 수 있는 다른 위치와 구별하기 위해 **원본 (origin)**이라는 용어를 사용한다.
+
+원본 서버가 요청을 받으면 응답을 보내기 전에 일부 계산을 수행한다. 이 계산 작업의 결과는 CDN(Content Delivery Network)으로 이동할 수 있다.
+
+#### `Content Delivery Network (CDN)`
+
+CDN은 전 세계 여러 위치에 정적 콘텐츠(예: HTML 및 이미지 파일)를 저장하고 있고, 클라이언트와 원본 서버 사이에 배치된다. 새로운 요청이 들어오면 사용자와 가장 가까이 있는 CDN이 캐시된 결과를 응답할 수 있다.
+
+![CDN](./images/CDN.png)
+
+각 요청마다 계산할 필요가 없기 때문에 오리진의 부하가 줄어든다. 또한 지리적으로 더 가까운 위치에서 응답이 오기 때문에 사용자가 더 빠르게 작업할 수 있다.
+
+Next.js에서는 pre-rendering을 미리 수행해서 CDN에 작업의 정적 결과를 저장할 수 있으므로 콘텐츠 전달 속도를 빨르게 할 수 있다.
+
+#### `The Edge`
+
+Edge는 사용자에게 가장 가까운 네트워크 주변부(또는 가장자리)라는 의미를 가진다. CDN은 네트워크의 주변부(또는 가장자리)에 정적 콘텐츠를 저장하기 때문에 "the Edge"의 일부로 간주될 수 있다.
+
+CDN과 유사하게 에지 서버는 전 세계 여러 위치에 배포된다. 그러나 정적 콘텐츠만을 저장하는 CDN과 달리 일부 에지 서버는 코드를 실행할 수 있다.
+
+이는 **캐싱**과 **코드 실행** 모두 사용자에게 더 가까운 Edge에서 수행할 수 있음을 의미한다.
+
+Edge에서 코드를 실행할 수 있다는건 전통적으로 클라이언트 측 또는 서버 측에서 수행되었던 일부 작업을 Edge로 이동할 수 있다는 것을 의미한다([여기에서 Next.js의 예 참조](https://vercel.com/features/edge-functions)). 이렇게 하면 클라이언트로 전송되는 코드의 양이 줄어들고 사용자 요청의 일부가 원본 서버로 다시 돌아갈 필요가 없으므로 대기 시간이 줄어든다. 때문에 애플리케이션의 성능이 향상될 수 있다.
+
+Next.js에서는 Edge에서 [미들웨어](https://nextjs.org/docs/advanced-features/middleware)로 코드를 실행할 수 있으며 곧 [React Server Components](https://nextjs.org/docs/advanced-features/react-18/overview#react-server-components-alpha) 코드를 실행할 수 있다.

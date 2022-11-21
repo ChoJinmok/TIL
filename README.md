@@ -15,6 +15,7 @@
 ### Next.js
 
 - [How Next.js Works](https://github.com/ChoJinmok/TIL/blob/master//Next.js/HowNextjsWorks.md)
+- [CREATE YOUR FIRST APP](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp.md)
 - [Dynamic Routes](https://github.com/ChoJinmok/TIL/blob/master/Next.js/DynamicRoutes.md)
 - [Move to detail page](https://github.com/ChoJinmok/TIL/blob/master/Next.js/MoveToDetail.md)
 - [Image Optional Props](https://github.com/ChoJinmok/TIL/blob/master/Next.js/ImageOptionalProps.md)

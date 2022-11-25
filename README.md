@@ -32,6 +32,7 @@
 
 - [event의 type](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/EventType.md)
 - [Next.js의 Catch All url에서 type](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/CatchAllUrlType.md)
+- [Redux의 useSelector, useDispatch type mocking](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/ReduxTypeMocking.md)
 
 ### JavaScript
 

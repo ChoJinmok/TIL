@@ -5,3 +5,5 @@
 ### 1. [Create a Next.js App](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/CreateANextjsApp.md)
 
 ### 2. [Navigate Between Pages](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/NavigateBetweenPages.md)
+
+### 3. [Assets, Metadata, and CSS](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/AssetsMetadataCSS.md)

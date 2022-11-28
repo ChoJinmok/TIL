@@ -6,7 +6,7 @@
 
 ## 1. Assets
 
-Next.js는 **최상위 디렉토리인 [`public`](https://nextjs.org/docs/basic-features/static-file-serving)**을 통해 이미지와 같은 **정적 asset**을 제공한다. `public` 내부의 파일은 [`pages`](https://nextjs.org/docs/basic-features/pages)와 유사하게 응용 프로그램의 루트에서 참조할 수 있다.
+Next.js는 **최상위 디렉토리인** [`public`](https://nextjs.org/docs/basic-features/static-file-serving)을 통해 이미지와 같은 **정적 asset**을 제공한다. `public` 내부의 파일은 [`pages`](https://nextjs.org/docs/basic-features/pages)와 유사하게 응용 프로그램의 루트에서 참조할 수 있다.
 
 `public` 디렉토리는 `robots.txt`, Google Site Verification 및 기타 정적 asset에도 유용하다. 자세한 내용은 [정적 파일 제공](https://nextjs.org/docs/basic-features/static-file-serving)에 대한 설명서를 확인
 
@@ -46,9 +46,9 @@ Next.js는 기본적으로 이미지 최적화도 지원한다. 이를 통해 [W
 
 ### 1.4. Using the Image Component
 
-빌드 시 이미지를 최적화하는 대신 Next.js는 사용자가 요청할 때 주문형으로 이미지를 최적화한다. 정적 사이트 생성기 및 정적 전용 솔루션과 달리 10개의 이미지를 배송하든 1천만 개의 이미지를 배송하든 빌드 시간이 늘어나지 않는다.
+Next.js는 빌드 시에 이미지를 최적화하지 않고 사용자가 요청할 때 주문형으로 이미지를 최적화한다. 정적 사이트 생성기 및 정적 전용 솔루션과 달리 10개의 이미지를 배송하든 1천만 개의 이미지를 배송하든 빌드 시간이 늘어나지 않는다.
 
-이미지는 기본적으로 지연 로드된다. 즉, 표시 영역 외부의 이미지에 대해 페이지 속도가 저하되지 않는다. 이미지가 뷰포트로 스크롤되면서 로드된다.
+이미지는 기본적으로 지연 로드된다. 즉, 뷰포트 외부의 이미지 때문에 페이지 속도가 저하되지 않는다. 이미지가 뷰포트로 스크롤되면서 로드된다.
 
 이미지는 항상 Google이 [검색 순위에 사용](https://developers.google.com/search/blog/2020/05/evaluating-page-experience)할 [Core Web Vital](https://web.dev/vitals/#core-web-vitals)인 [누적 레이아웃 이동](https://web.dev/cls/)을 피하는 방식으로 렌더링된다.
 
@@ -66,5 +66,56 @@ const YourComponent = () => (
   />
 );
 ```
+
+<br />
+
+## 2. Metadata
+
+`<title>` HTML 태그와 같은 페이지의 메타데이터를 수정하려면 어떻게 해야 할까?
+
+`<title>`은 `<head>` HTML 태그의 일부이므로 Next.js 페이지에서 `<head>` 태그를 수정하는 방법을 살펴보자.
+
+```tsx
+// pages/index.tsx
+
+<Head>
+  <title>Create Next App</title>
+  <link rel="icon" href="/favicon.ico" />
+</Head>
+```
+
+소문자 `<head>` 대신 `<Head>`를 사용한다. `<Head>`는 Next.js에 내장된 React component이다. 페이지의 `<head>`를 수정할 수 있다.
+
+[`next/head`](https://nextjs.org/docs/api-reference/next/head) 모듈에서 'Head` component를 가져올 수 있다.
+
+### 2.1. Adding Head
+
+파일 시작 부분에 [`next/head`](https://nextjs.org/docs/api-reference/next/head)에서 `Head`에 대한 import를 추가한다.
+
+```tsx
+import Head from "next/head";
+```
+
+그런 다음 `Head` component를 포함하도록 업데이트한다. 지금은 제목 태그만 추가하겠다.
+
+```tsx
+export default function FirstPost() {
+  return (
+    <>
+      <Head>
+        <title>First Post</title>
+      </Head>
+      <h1>First Post</h1>
+      <h2>
+        <Link href="/">← Back to home</Link>
+      </h2>
+    </>
+  );
+}
+```
+
+이제 브라우저 탭에 "First Post"가 표시된다. 브라우저의 개발자 도구를 사용하면 `title` 태그가 `<head>`에 추가된 것을 볼 수 있다.
+
+> lang 속성을 추가하는 등 `<html>` 태그를 사용자 정의하려면 `pages/_document.js` 파일을 생성하면 된다. ([custom `Document` documentation](https://nextjs.org/docs/advanced-features/custom-document))
 
 Next.js는 [CSS](https://nextjs.org/docs/basic-features/built-in-css-support)와 [Sass](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support)를 기본적으로 지원한다.

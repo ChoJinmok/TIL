@@ -116,6 +116,64 @@ export default function FirstPost() {
 
 이제 브라우저 탭에 "First Post"가 표시된다. 브라우저의 개발자 도구를 사용하면 `title` 태그가 `<head>`에 추가된 것을 볼 수 있다.
 
-> lang 속성을 추가하는 등 `<html>` 태그를 사용자 정의하려면 `pages/_document.js` 파일을 생성하면 된다. ([custom `Document` documentation](https://nextjs.org/docs/advanced-features/custom-document))
+> lang 속성을 추가하는 등 `<html>` 태그를 사용자 정의하려면 `pages/_document.js` 파일을 생성하면 된다. ([`Custom Document` documentation](https://nextjs.org/docs/advanced-features/custom-document))
 
 Next.js는 [CSS](https://nextjs.org/docs/basic-features/built-in-css-support)와 [Sass](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support)를 기본적으로 지원한다.
+
+<br />
+
+## 2. Third-Party JavaScript
+
+Third-Party JavaScript는 third-party 소스에서 추가된 모든 스크립트를 나타낸다. 일반적으로 분석, 광고 및 고객 지원 위젯과 같이 처음부터 작성할 필요가 없는 최신 기능을 사이트에 도입하기 위해 third-party 스크립트를 활용한다.
+
+### 2.1. Adding Third-Party JavaScript
+
+Next.js 페이지에 third-party 스크립트를 추가하는 방법을 살펴보겠다.
+
+```tsx
+<Head>
+  <title>First Post</title>
+  <script src="https://connect.facebook.net/en_US/sdk.js" />
+</Head>
+```
+
+메타데이터 외에도 로드하고 실행해야 하는 스크립트는 일반적으로 페이지의 `<head>` 내에 추가한다. 일반 HTML `<script>` 요소를 사용하면 위와 같이 외부 스크립트를 추가한다.
+
+이 접근 방식은 작동하지만 이 방식으로 스크립트를 추가하면 다른 JavaScript 코드와 비교해서 언제 로드될지 명확하게 알 수 없다. 특정 스크립트가 렌더링을 차단하고 페이지 콘텐츠 로드를 지연시키는 경우 성능에 상당한 영향을 미칠 수 있다.
+
+### 2.2. Script Component
+
+[`next/script`](https://nextjs.org/docs/api-reference/next/script)는 HTML `<script>` 요소의 확장이며 추가 스크립트를 가져와 실행할 때 최적화한다.
+
+```tsx
+import Script from "next/script";
+
+export default function FirstPost() {
+  return (
+    <>
+      <Head>
+        <title>First Post</title>
+      </Head>
+      <Script
+        src="https://connect.facebook.net/en_US/sdk.js"
+        strategy="lazyOnload"
+        onLoad={() =>
+          console.log(`script loaded correctly, window.FB has been populated`)
+        }
+      />
+      <h1>First Post</h1>
+      <h2>
+        <Link href="/">← Back to home</Link>
+      </h2>
+    </>
+  );
+}
+```
+
+#### **Script component property**
+
+- `strategy`는 third-party 스크립트를 로드해야 하는 시기를 제어한다. `lazyOnload` 값은 브라우저 유휴 시간 동안 스크립트를 느리게 로드하도록 Next.js에 지시한다.
+
+- `onLoad`는 스크립트 로드가 완료된 직후 JavaScript 코드를 실행하는 데 사용된다. 위의 예시에서는 스크립트가 올바르게 로드되었다는 메시지를 콘솔에 기록한다.
+
+> `Script` component에 대해 자세히 알아보려면 [documentation](https://nextjs.org/docs/basic-features/script)를 확인

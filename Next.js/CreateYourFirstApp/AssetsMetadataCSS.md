@@ -270,3 +270,72 @@ export default function Layout({ children }) {
 [CSS 모듈](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css)은 빌드 시 JavaScript 번들에서 추출되며 Next.js에 의해 자동으로 로드되는 `.css` 파일을 생성한다.
 
 > Next.js가 기본적으로 지원하는 스타일 지정 방법: CSS Modules, Sass, styled-jsx
+
+<br />
+
+## 6. Global Styles
+
+[CSS 모듈](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css)은 component 수준 스타일에 유용하다. **모든 페이지**에서 일부 CSS를 로드하는 방법도 지원한다.
+
+[전역 CSS](https://nextjs.org/docs/basic-features/built-in-css-support#adding-a-global-stylesheet) 파일을 로드하려면 다음 콘텐츠가 포함된 [`page/_app.js`](https://nextjs.org/docs/advanced-features/custom-app)라는 파일을 만든다.
+
+```jsx
+export default function App({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+```
+
+이 `App` component는 모든 다른 페이지에서 공통되는 최상위 component이다. 예를 들어 이 `App` component를 사용하여 페이지 간을 탐색할 때 상태를 유지할 수 있다.
+
+> `pages/_app.js`를 추가할 때 개발 서버를 다시 시작해야 한다. `Ctrl + c`를 눌러 서버를 중지하고 `npm run dev`을 실행한다.
+
+### 6.1. Adding Global CSS
+
+Next.js에서는 [`page/_app.js`](https://nextjs.org/docs/advanced-features/custom-app)에 [전역 CSS](https://nextjs.org/docs/basic-features/built-in-css-support#adding-a-global-stylesheet) 파일을 추가할 수 있다. 다른 곳에서는 전역 CSS를 import 할 수 없다.
+
+전역 CSS 파일은 어디에나 배치하고 아무 이름이나 사용할 수 있다:
+
+- 최상위 `styles` 디렉터리와 `global.css` 파일을 만든다.
+
+```css
+/* styles/global.css */
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+```
+
+```jsx
+// `pages/_app.js`
+import "../styles/global.css";
+
+export default function App({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+```
+
+`_app.js`에 가져온 전역 스타일은 애플리케이션의 모든 페이지에 전체적으로 적용된다.

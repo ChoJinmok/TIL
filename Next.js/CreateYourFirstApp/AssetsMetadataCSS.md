@@ -177,3 +177,15 @@ export default function FirstPost() {
 - `onLoad`는 스크립트 로드가 완료된 직후 JavaScript 코드를 실행하는 데 사용된다. 위의 예시에서는 스크립트가 올바르게 로드되었다는 메시지를 콘솔에 기록한다.
 
 > `Script` component에 대해 자세히 알아보려면 [documentation](https://nextjs.org/docs/basic-features/script)를 확인
+
+<br />
+
+## 2. CSS Styling
+
+[CSS 모듈](https://nextjs.org/docs/basic-features/built-in-css-support)을 사용하면 고유한 클래스 이름을 자동으로 생성하여 component 수준에서 CSS 범위를 정할 수 있다. 이를 통해 클래스 이름 충돌에 대한 걱정 없이 다른 파일에서 동일한 CSS 클래스 이름을 사용할 수 있다.
+
+CSS 모듈 외에도 다음과 같은 다양한 방법으로 Next.js 애플리케이션의 스타일을 지정할 수 있다.
+
+- `.css` 및 `.scss` 파일을 가져올 수 있는 [Sass](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support)
+- [Tailwind CSS](https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss)와 같은 PostCSS 라이브러리
+- [styled-jsx](https://github.com/vercel/styled-jsx), [styled-components](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components) 및 [emotion](https://github.com/vercel/next.js/tree/canary/examples/with-emotion)과 같은 CSS-in-JS 라이브러리

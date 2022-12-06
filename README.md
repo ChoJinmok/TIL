@@ -42,6 +42,7 @@
 - [DOM](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/DOM.md)
 - [Custom createElement](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/CustomCreateElement.md)
 - [DOM Events](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/DOMEvents.md)
+- [이벤트 전파](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/EventPropagation.md)
 
 ### HTML & CSS
 

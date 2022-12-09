@@ -64,3 +64,12 @@ git mv temp login
 ```
 
 - 위 처럼 `input`태그에서 처럼 `onChange` 이벤트를 만들어주고 `value`에 `state`를 넣어주면된다.
+
+---
+
+## 6. jest에서 비어있는 요소 테스트하기
+
+- `toBeEmptyDOMElement` matcher 사용
+  ```ts
+  expect(genderSelector.firstChild).toBeEmptyDOMElement();
+  ```

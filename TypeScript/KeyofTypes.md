@@ -1,6 +1,6 @@
 # Keyof Type Operator
 
-> > [진행하던 프로젝트](https://github.com/ChoJinmok/ikehaeyeo)에서 TypeScript를 적용하면서 만난 문제를 해결하면서 알게된 점을 정리했다.
+> [진행하던 프로젝트](https://github.com/ChoJinmok/ikehaeyeo)에서 TypeScript를 적용하면서 만난 문제를 해결하면서 알게된 점을 정리했다.
 
 <br />
 

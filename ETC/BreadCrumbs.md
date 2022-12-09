@@ -46,3 +46,21 @@ git mv temp login
 - 원인: 자식 컴포넌트는 부모 컴포넌트에 import 되서 사용된다. 그런데 자식 컴포넌트에서 부모 컴포넌트의 요소를 import 하면 순환 에러가 발생한다. (자식 -> 부모 -> 자식)
 
 - 해결: type.ts 모듈을 따로 만들어서 각 컴포넌트에서 import해서 사용하는 방식으로 해결 했다.
+
+---
+
+## 5. 리액트에서 select 사용하기
+
+- `<input>`만 많이 사용하다가 `<select>`사용법이 햇갈려서 정리...(반성)
+
+```tsx
+<select value={value} onChange={handleChange}>
+  {options.map(({ label, value }) => (
+    <option key={value} value={value}>
+      {label}
+    </option>
+  ))}
+</select>
+```
+
+- 위 처럼 `input`태그에서 처럼 `onChange` 이벤트를 만들어주고 `value`에 `state`를 넣어주면된다.

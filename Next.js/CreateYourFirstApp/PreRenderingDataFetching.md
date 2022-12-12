@@ -37,3 +37,41 @@
 
 ![pre-rendering](./images/pre-rendering.png)
 ![no-pre-rendering](./images/no-pre-rendering.png)
+
+<br />
+
+## 2. Two Forms of Pre-rendering
+
+Next.js에는 [Static Generation](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)(정적 생성)과 [서버 사이드 렌더링](https://nextjs.org/docs/basic-features/pages#server-side-rendering), 두 가지 사전 렌더링 형식이 있다. 차이점은 페이지의 HTML을 생성하는 **시점**이다.
+
+- [정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)은 **빌드 시** HTML을 생성하는 사전 렌더링 방법이다. 그러면 미리 렌더링된 HTML은 각 요청에서 재사용된다.
+
+- [서버 사이드 렌더링](https://nextjs.org/docs/basic-features/pages#server-side-rendering)은 각 요청마다 HTML을 생성하는 사전 렌더링 방법이다.
+
+![static-generation](./images/static-generation.png)
+![server-side-rendering](./images/server-side-rendering.png)
+
+> 개발 모드에서(npm run dev 또는 yarn dev를 실행할 때) 페이지는 모든 요청마다 [미리 렌더링](https://nextjs.org/docs/basic-features/pages#pre-rendering)된다. 이것은 [정적 생성](https://nextjs.org/docs/basic-features/data-fetching/get-static-props#runs-on-every-request-in-development)에도 적용되어 개발하기가 더 쉽다. 프로덕션에서 정적 생성은 **모든 요청이 아닌** 빌드 시 한 번만 발생한다.
+
+### 2.1. Per-page Basis
+
+중요한 점은 Next.js를 사용하면 각 페이지에 사용할 사전 렌더링 양식을 **선택**할 수 있다는 것이다. 대부분의 페이지에는 [정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)을 사용하고 다른 페이지에는 [서버 사이드 렌더링](https://nextjs.org/docs/basic-features/pages#server-side-rendering)을 사용하여 "하이브리드" Next.js 앱을 만들 수 있다.
+
+![per-page-basis](./images/per-page-basis.png)
+
+### 2.2. When to Use [Static Generation](https://nextjs.org/docs/basic-features/pages#static-generation-recommended) v.s. [Server-side Rendering](https://nextjs.org/docs/basic-features/pages#server-side-rendering)
+
+페이지를 한 번 빌드하고 CDN에서 제공할 수 있으므로 가능한 한 [정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)(데이터 포함 및 제외)을 사용하는 것이 좋다. 이렇게 하면 요청이 있을 때마다 서버에서 페이지를 렌더링하는 것보다 훨씬 빠르다.
+
+다음을 포함하여 다양한 유형의 페이지에 대해 [정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)을 사용할 수 있다.
+
+- 마케팅 페이지
+- 블로그 게시물
+- E-commerce 제품 목록
+- 도움말 및 설명서
+
+"사용자 요청에 **앞서** 이 페이지를 미리 렌더링할 수 있습니까?"라고 스스로에게 물어봐야 한다. 대답이 예인 경우 [정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)을 선택해야 한다.
+
+반면에 [정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)은 사용자 요청보다 먼저 페이지를 미리 렌더링할 수 없는 경우 좋은 생각이 아니다.
+
+페이지에 자주 업데이트되는 데이터가 표시되고 페이지 콘텐츠가 모든 요청에서 변경될 수 있는 경우 [서버 사이드 렌더링](https://nextjs.org/docs/basic-features/pages#server-side-rendering)을 사용할 수 있다. 속도는 느려지지만 미리 렌더링된 페이지는 항상 최신 상태이다. 또는 사전 렌더링을 건너뛰고 클라이언트 측 JavaScript를 사용하여 자주 업데이트되는 데이터를 채울 수 있다.

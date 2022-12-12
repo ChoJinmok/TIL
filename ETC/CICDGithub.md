@@ -180,4 +180,8 @@ exports.config = {
 
 <br />
 
-## 6. [완성 코드](https://github.com/ChoJinmok/ikehaeyeo/tree/main/.github/workflows)
+## 6. [Using Github environments for deploy](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
+
+<br />
+
+## 7. [완성 코드](https://github.com/ChoJinmok/ikehaeyeo/tree/main/.github/workflows)

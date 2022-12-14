@@ -75,3 +75,43 @@ Next.js에는 [Static Generation](https://nextjs.org/docs/basic-features/pages#s
 반면에 [정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)은 사용자 요청보다 먼저 페이지를 미리 렌더링할 수 없는 경우 좋은 생각이 아니다.
 
 페이지에 자주 업데이트되는 데이터가 표시되고 페이지 콘텐츠가 모든 요청에서 변경될 수 있는 경우 [서버 사이드 렌더링](https://nextjs.org/docs/basic-features/pages#server-side-rendering)을 사용할 수 있다. 속도는 느려지지만 미리 렌더링된 페이지는 항상 최신 상태이다. 또는 사전 렌더링을 건너뛰고 클라이언트 측 JavaScript를 사용하여 자주 업데이트되는 데이터를 채울 수 있다.
+
+<br />
+
+## 3. Static Generation with and without Data
+
+[정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)은 데이터 유무에 관계없이 수행할 수 있다.
+
+외부 데이터를 가져올 필요가 없는 페이지는 앱이 프로덕션용으로 빌드될 때 자동으로 정적으로 생성된다.
+
+![static-generation-without-data](./images/static-generation-without-data.png)
+
+그러나 일부 페이지의 경우 일부 외부 데이터를 먼저 가져오지 않고는 HTML을 렌더링하지 못할 수 있다. 파일 시스템에 액세스하거나 외부 API를 가져오거나 빌드 시 데이터베이스를 쿼리해야 할 수 있다. Next.js는 이 경우([**데이터를 사용한** 정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-with-data))를 지원한다.
+
+![static-generation-with-data](./images/static-generation-with-data.png)
+
+### 3.1. Static Generation with Data using `getStaticProps`
+
+어떻게 작동할까? Next.js에서 페이지 component를 내보낼 때 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)라는 `비동기` 함수를 내보낼 수도 있다.
+
+- [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)는 프로덕션에서 빌드 시 실행되며…
+- 함수 내에서 외부 데이터를 가져와 페이지에 대한 props로 보낼 수 있다.
+
+```jsx
+export default function Home(props) { ... }
+
+export async function getStaticProps() {
+  // 파일 시스템, API, DB 등에서 외부 데이터 가져오기.
+  const data = ...
+
+  // `props` 키의 값은
+  // `Home` 컴포넌트로 전달된다.
+  return {
+    props: ...
+  }
+}
+```
+
+기본적으로 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)를 사용하면 Next.js에 다음과 같이 알릴 수 있다: "이 페이지에는 약간의 데이터 종속성이 있다. 따라서 빌드 시 이 페이지를 사전 렌더링할 때 먼저 해결해야 한다!"
+
+> 개발 모드에서는 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)가 대신 각 요청에서 실행된다.

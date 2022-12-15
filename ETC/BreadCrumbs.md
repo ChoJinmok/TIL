@@ -73,3 +73,25 @@ git mv temp login
   ```ts
   expect(genderSelector.firstChild).toBeEmptyDOMElement();
   ```
+
+---
+
+## 7. tsx 파일에서 TypeScript 제네릭 사용시 에러 해결
+
+- tsx 파일 내 arrow function 사용할 일이 있었는데 arrow function에 TypeScript의 제네릭을 사용하니 에러를 만나게됐다.
+
+- 에러 내용: `JSX element 'T' has no corresponding closing tag.`
+
+- 원인 추측: 다이아몬드 연산자가 .tsx에서 JSX구문으로 인식되기 때문에 에러가 발생한 것으로 보인다.
+
+- 해결방법
+
+  - 구글링으로 방법을 찾아보니 정상적인 방법은 없는 것 같았다. 그도 그럴것이 제네릭과 JSX는 겉보기에 똑같아서 개발자가 직접 알려주는 수 밖에는 없을 것 같다.
+  - `<T,>(param : T) => x` 처럼 T 옆에 trailiing comma를 사용해서 `<`심볼이 jsx가 아니라는 확신을 컴파일러에게 주면 해결된다.
+  - `const foo = <T extends {}>(x: T):T => x` 처럼 `{}`를 `extends`해줌으로써 jsx가 아니라는 확신을 준다.
+
+- 한계점: 찾은 두가지 방법 모두 `Eslint`에서는 잘못된 코드라고 인식해서 `Eslint`에게도 해당 코드는 검사하지 않게 해줘야한다.
+
+- Reference
+  - [What is the syntax for Typescript arrow functions with generics?](https://stackoverflow.com/questions/32308370/what-is-the-syntax-for-typescript-arrow-functions-with-generics/45576880#45576880)
+  - [TypeScript | Generic 제네릭 (feat. TypeScript 두 달차 후기)](https://velog.io/@edie_ko/TypeScript-Generic-%EC%A0%9C%EB%84%A4%EB%A6%AD-feat.-TypeScript-%EB%91%90-%EB%8B%AC%EC%B0%A8-%ED%9B%84%EA%B8%B0)

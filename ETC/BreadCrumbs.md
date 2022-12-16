@@ -95,3 +95,24 @@ git mv temp login
 - Reference
   - [What is the syntax for Typescript arrow functions with generics?](https://stackoverflow.com/questions/32308370/what-is-the-syntax-for-typescript-arrow-functions-with-generics/45576880#45576880)
   - [TypeScript | Generic 제네릭 (feat. TypeScript 두 달차 후기)](https://velog.io/@edie_ko/TypeScript-Generic-%EC%A0%9C%EB%84%A4%EB%A6%AD-feat.-TypeScript-%EB%91%90-%EB%8B%AC%EC%B0%A8-%ED%9B%84%EA%B8%B0)
+
+---
+
+## 8. TypeScript에서 'vlueof'?
+
+얼마전 특정 변수의 타입을 특정 객체의 key들로 해줄 일이 있었는데 그때 TypeScript의 `keyof`를 알게됐다. 그러면서 생긴 의문점이 'vlueof'는 없을까 하는 것이었다. 결론을 말하자면 'valueof'라는 키워드는 없다. 하지만 구글링 중 알게된 방법이 있어서 기록한다.
+
+- VlueOf 타입 만들기
+
+  ```typescript
+  type ValueOf<T> = T[keyof T];
+  ```
+
+  ```typescript
+  // 예시
+
+  type Foo = { a: string; b: number };
+  type ValueOfFoo = ValueOf<Foo>; // string | number
+  ```
+
+- 참고 자료: [Is there a `valueof` similar to `keyof` in TypeScript?](https://stackoverflow.com/questions/49285864/is-there-a-valueof-similar-to-keyof-in-typescript)

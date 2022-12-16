@@ -116,3 +116,27 @@ git mv temp login
   ```
 
 - 참고 자료: [Is there a `valueof` similar to `keyof` in TypeScript?](https://stackoverflow.com/questions/49285864/is-there-a-valueof-similar-to-keyof-in-typescript)
+
+---
+
+## 9. Jest, React Testing Library애서 Font Awesome 아이콘 테스트
+
+- 상황: Font Awesome 아이콘을 사용하면서 아이콘이 화면에 잘 렌더링 되는지를 테스트 하기위해 `testid`를 이용했다. 그런데 이렇게 일일이 `testid`를 주는 것이 번거롭기도 했고 더 좋은 방법이 없을까 고민하던도중 함께 공부하는 ['건희 님'의 코드](https://github.com/xunxee/shopifyStore/pull/11/files/c8e6aa8dc3415b776a32ef4aea97069ae034fbc2#diff-8b030e2cdaff033951ed53cfe5cea2bae0de05f81583954fb8a0693bc88ed40a)에서 좋은 방법을 찾아서 이 방법을 정리한다.
+
+- Font Awesome 컴포넌트에서 `title` props 이용하기
+
+  - `title` props를 넘겨주게되면 title 태그를 렌더링해준다.
+  - 브라우저에서 직접 보여지지는 않지만 어떤 아이콘인지 설명해준다는 점에서도 사용하는 것이 좋을 것 같다.
+  - 위와 같이 SEO에서도 좋지만 테스트 코드에서 `getByText`를 이용해서 요소가 있는지 확인할 수 있다.
+
+  ```tsx
+  <FontAwesomeIcon
+    title="birth-date-tooltip"
+    icon={faCircleInfo}
+    aria-hidden="true"
+  />
+  ```
+
+  ```tsx
+  expect(queryByText("birth-date-tooltip")).not.toBeNull();
+  ```

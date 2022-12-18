@@ -30,6 +30,7 @@
 - [jsx의 div에 이벤트 주기](https://github.com/ChoJinmok/TIL/blob/master/React.js/DivEventInJsx.md)
 - [React Router의 Route](https://github.com/ChoJinmok/TIL/blob/master/React.js/Route.md)
 - [control(interactive element)는 label과 연결되어야 한다.](https://github.com/ChoJinmok/TIL/blob/master/React.js/jsxControlLabel.md)
+- [jsx에서 mouse event는 key event로도 가능해야한다.](https://github.com/ChoJinmok/TIL/blob/master/React.js/jsxMouseEventsHaveKeyEvents.md)
 
 ### TypeScript
 

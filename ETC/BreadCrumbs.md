@@ -140,3 +140,19 @@ git mv temp login
   ```tsx
   expect(queryByText("birth-date-tooltip")).not.toBeNull();
   ```
+
+---
+
+## 10. TypeScript에서 input 태그의 types 적용
+
+```tsx
+import { HTMLInputTypeAttribute } from "react";
+
+type InputBaseProps = {
+  type?: HTMLInputTypeAttribute;
+};
+```
+
+```typescript
+type HTMLInputTypeAttribute = "number" | "search" | "button" | "time" | "image" | "text" | "checkbox" | "color" | "date" | "datetime-local" | "email" | "file" | "hidden" | "month" | "password" | "radio" | "range" | ... 5 more ... | (string & {})
+```

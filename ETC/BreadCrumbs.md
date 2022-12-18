@@ -156,3 +156,35 @@ type InputBaseProps = {
 ```typescript
 type HTMLInputTypeAttribute = "number" | "search" | "button" | "time" | "image" | "text" | "checkbox" | "color" | "date" | "datetime-local" | "email" | "file" | "hidden" | "month" | "password" | "radio" | "range" | ... 5 more ... | (string & {})
 ```
+
+---
+
+## 11. React의 Fragment에 key prop 적용
+
+- 상황: `<></>` fragment를 자주 사용하는데 여기에 바로 key prop을 적용하려고 하면 에러가 발생한다.
+
+- 해결 방법:
+
+  ```tsx
+  import { Fragment } from "react";
+
+  const App = () => {
+    const arr = ["Austria", "Belgium", "Canada"];
+
+    return (
+      <div>
+        {arr.map((element, key) => {
+          return (
+            <Fragment key={key}>
+              <h2>key: {key}</h2>
+              <h2>element: {element}</h2>
+              <hr />
+            </Fragment>
+          );
+        })}
+      </div>
+    );
+  };
+
+  export default App;
+  ```

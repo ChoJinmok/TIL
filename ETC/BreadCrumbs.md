@@ -188,3 +188,28 @@ type HTMLInputTypeAttribute = "number" | "search" | "button" | "time" | "image" 
 
   export default App;
   ```
+
+---
+
+## 12. emotion props type 지정
+
+- 다음과 같이 제네릭으로 타입을 전달해준다.
+
+```tsx
+interface BirthDateTooltipTextProps {
+  isMouseOver: boolean;
+}
+
+const BirthDateTooltipText = styled.span<BirthDateTooltipTextProps>(
+  ({ isMouseOver }) => ({
+    visibility: isMouseOver ? "visible" : "hidden",
+    hidden: isMouseOver ? 1 : 0,
+  })
+);
+```
+
+---
+
+## 13. CodeceptJS에서 hover 테스트
+
+- `moveCursorTo` 메서드 사용

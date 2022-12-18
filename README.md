@@ -12,6 +12,7 @@
 - [배포](https://github.com/ChoJinmok/TIL/blob/master/ETC/Deploy.md)
 - [인가 (Authorization)](https://github.com/ChoJinmok/TIL/blob/master/ETC/Authorization.md)
 - [CI/CD with Github](https://github.com/ChoJinmok/TIL/blob/master/ETC/CICDGithub.md)
+- [Webpack(dev),Vercel(production)에서 proxy로 COR 해결](https://github.com/ChoJinmok/TIL/blob/master/ETC/WebpackVercelProxy.md)
 
 ### Next.js
 

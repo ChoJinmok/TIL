@@ -39,6 +39,7 @@
 - [Redux의 useSelector, useDispatch type mocking](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/ReduxTypeMocking.md)
 - [Keyof Type Operator](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/KeyofTypes.md)
 - [TypeScript possibly undefined value 에러](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/PossiblyUndefined.md)
+- [React의 defaultProps](https://github.com/ChoJinmok/TIL/blob/master/TypeScript/defaultProps.md)
 
 ### JavaScript
 

@@ -77,6 +77,6 @@ export default function HomePage() {
 
 ## 5. Reference
 
-[[React] Webpack Proxy설정을 이용하여 CORS 해결](https://jforj.tistory.com/149)
-[[webpack] proxy를 사용하여 CORS 에러 해결 하기!](https://velog.io/@jjhstoday/webpack-proxy%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-CORS-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0-%ED%95%98%EA%B8%B0)
-[Vercel Rewrite: SPA Fallback except for API endpoint](https://stackoverflow.com/questions/64920230/vercel-rewrite-spa-fallback-except-for-api-endpoint)
+- [[React] Webpack Proxy설정을 이용하여 CORS 해결](https://jforj.tistory.com/149)
+- [[webpack] proxy를 사용하여 CORS 에러 해결 하기!](https://velog.io/@jjhstoday/webpack-proxy%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-CORS-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0-%ED%95%98%EA%B8%B0)
+- [Vercel Rewrite: SPA Fallback except for API endpoint](https://stackoverflow.com/questions/64920230/vercel-rewrite-spa-fallback-except-for-api-endpoint)

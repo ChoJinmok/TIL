@@ -115,3 +115,127 @@ export async function getStaticProps() {
 기본적으로 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)를 사용하면 Next.js에 다음과 같이 알릴 수 있다: "이 페이지에는 약간의 데이터 종속성이 있다. 따라서 빌드 시 이 페이지를 사전 렌더링할 때 먼저 해결해야 한다!"
 
 > 개발 모드에서는 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)가 대신 각 요청에서 실행된다.
+
+<br />
+
+## 4. Blog Data
+
+## 간단한 블로그 아키텍처 만들기
+
+이 예제의 블로그 게시물은 응용 프로그램의 디렉터리에 로컬 마크다운 파일로 저장되므로(외부 데이터 소스에서 가져오지 않음) 파일 시스템에서 데이터를 읽어야 한다.
+
+이 섹션에서는 파일 시스템에서 마크다운 데이터를 읽는 블로그를 만드는 단계를 살펴보겠다.
+
+### 4.1. 마크다운 파일 만들기
+
+먼저 루트 폴더에 **`posts`**(`pages/posts`이 아님)이라는 새 최상위 디렉터리를 만든다. `posts` 내부에 `pre-rendering.md` 및 `ssg-ssr.md`라는 두 개의 파일을 만든다.
+
+이제 다음 코드를 `posts/pre-rendering.md`에 복사:
+
+```markdown
+---
+title: "Two Forms of Pre-rendering"
+date: "2020-01-01"
+---
+
+Next.js has two forms of pre-rendering: **Static Generation** and **Server-side Rendering**. The difference is in **when** it generates the HTML for a page.
+
+- **Static Generation** is the pre-rendering method that generates the HTML at **build time**. The pre-rendered HTML is then _reused_ on each request.
+- **Server-side Rendering** is the pre-rendering method that generates the HTML on **each request**.
+
+Importantly, Next.js lets you **choose** which pre-rendering form to use for each page. You can create a "hybrid" Next.js app by using Static Generation for most pages and using Server-side Rendering for others.
+```
+
+그런 다음 다음 코드를 `posts/ssg-ssr.md`에 복사:
+
+```markdown
+---
+title: "When to Use Static Generation v.s. Server-side Rendering"
+date: "2020-01-02"
+---
+
+We recommend using **Static Generation** (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a server render the page on every request.
+
+You can use Static Generation for many types of pages, including:
+
+- Marketing pages
+- Blog posts
+- E-commerce product listings
+- Help and documentation
+
+You should ask yourself: "Can I pre-render this page **ahead** of a user's request?" If the answer is yes, then you should choose Static Generation.
+
+On the other hand, Static Generation is **not** a good idea if you cannot pre-render a page ahead of a user's request. Maybe your page shows frequently updated data, and the page content changes on every request.
+
+In that case, you can use **Server-Side Rendering**. It will be slower, but the pre-rendered page will always be up-to-date. Or you can skip pre-rendering and use client-side JavaScript to populate data.
+```
+
+> 각 마크다운 파일의 맨 위에는 `제목`과 `날짜`가 포함된 메타데이터 섹션이 있다. 이를 YAML Front Matter라고 하며 [gray-matter](https://github.com/jonschlinkert/gray-matter)이라는 라이브러리를 사용하여 구문 분석(parsing)할 수 있다.
+
+### 4.2. gray-matter 설치
+
+먼저 각 마크다운 파일의 메타데이터를 구문 분석(parsing)할 수 있는 [gray-matter](https://github.com/jonschlinkert/gray-matter)을 설치한다.
+
+```shell
+npm install gray-matter
+```
+
+### 4.3. 파일 시스템을 읽기 위한 유틸리티 함수 만들기
+
+다음으로 파일 시스템에서 데이터를 구문 분석하기 위한 유틸리티 함수를 만든다. 이 유틸리티 기능을 사용하여 다음을 수행하고자 한다.
+
+- 각 마크다운 파일을 구문 분석하고 `제목`, `날짜` 및 파일 이름(포스트 URL의 `id`로 사용됨)을 가져온다.
+- 인덱스 페이지에 날짜별로 정렬된 데이터를 나열한다.
+
+루트 디렉터리에 `lib`라는 최상위 디렉터리를 만든다. 그런 다음 `lib` 내에서 `posts.js`라는 파일을 만들고 이 코드를 복사하여 붙여넣는다.
+
+```javascript
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+const postsDirectory = path.join(process.cwd(), "posts");
+
+export function getSortedPostsData() {
+  // /posts에서 파일 이름 가져오기
+  const fileNames = fs.readdirSync(postsDirectory);
+  const allPostsData = fileNames.map((fileName) => {
+    // id를 얻으려면 파일 이름에서 ".md"를 제거
+    const id = fileName.replace(/\.md$/, "");
+
+    // 마크다운 파일을 문자열로 읽기
+    const fullPath = path.join(postsDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+
+    // gray-matter을 사용하여 게시물 메타데이터 섹션을 구문 분석한다.
+    const matterResult = matter(fileContents);
+
+    // 데이터를 id와 결합
+    return {
+      id,
+      ...matterResult.data,
+    };
+  });
+  // 게시물을 날짜별로 정렬
+  return allPostsData.sort((a, b) => {
+    if (a.date < b.date) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+}
+```
+
+> Next.js를 배우기 위해 위의 코드가 무엇을 하는지 이해할 필요는 없다. 함수는 블로그 예제를 기능적으로 만드는 것이다. 그러나 더 자세히 알고 싶다면:
+>
+> - [`fs`](https://nodejs.org/api/fs.html#fsreaddirsyncpath-options)는 파일 시스템에서 파일을 읽을 수 있는 Node.js 모듈
+> - [`path`](https://nodejs.org/api/path.html#pathjoinpaths)는 파일 경로를 조작할 수 있는 Node.js 모듈
+> - [`matter`](https://www.npmjs.com/package/gray-matter)는 각 마크다운 파일의 메타데이터를 파싱할 수 있는 라이브러리
+> - Next.js에서 lib 폴더에는 pages 폴더와 같은 할당된 이름이 없으므로 아무 이름이나 지정할 수 있다. 일반적으로 lib 또는 utils를 사용하는 것이 관례이다.
+
+### 4.4. Fetching the blog data
+
+이제 블로그 데이터가 구문 분석되었으므로 인덱스 페이지(`pages/index.js`)에 추가해야 한다. [`getStaticProps()`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)라는 Next.js 데이터 fetching 메서드를 사용하여 이 작업을 수행할 수 있다. 다음 섹션에서는 `getStaticProps()`를 구현하는 방법을 배운다.
+
+![index-page](./images/index-page.png)

@@ -48,3 +48,22 @@ const setState = jest.fn();
 
 mockedUseState.mockImplementation((initialState) => [initialState, setState]);
 ```
+
+## 4. 추가 구현 사항
+
+- 프로젝트도중 state가 현재 어떤 상태인가에 따라 화면이 어떻게 달라지는지를 테스트해야했었다.
+- 그런데 위의 상황에서는 `initialState`르 따로 설정할 방법이 없다.
+- 그래서 다음과 같은 방법을 생각했다.
+
+  ```typescript
+  const useStateInitialState = { ... }
+
+  mockedUseState.mockImplementation(() => [useStateInitialState, setState]);
+  ```
+
+- 위와 같은 방법을 [`given2`](https://www.npmjs.com/package/given2)라이브러리와 함께 사용하면 테스트가 가능했다.
+
+### 4.1. 한계점
+
+- 위의 `mockImplementation`을 보면 실제 구현상황과 다른 것을 알 수 있다.
+- 여전히 setState의 인자로 함수가 들어올 땐 Redux의 dispatch와 같이 `toBeCalled`로 단순히 불려진 정도만 테스트가 가능하다. (현재 어떤 상태 변경, 액션이 일어나는 지 확인하고 싶다.)

@@ -13,6 +13,7 @@
 - [인가 (Authorization)](https://github.com/ChoJinmok/TIL/blob/master/ETC/Authorization.md)
 - [CI/CD with Github](https://github.com/ChoJinmok/TIL/blob/master/ETC/CICDGithub.md)
 - [Webpack(dev),Vercel(production)에서 proxy로 COR 해결](https://github.com/ChoJinmok/TIL/blob/master/ETC/WebpackVercelProxy.md)
+- [RegExp](https://github.com/ChoJinmok/TIL/blob/master/ETC/RegExp.md)
 
 ### Next.js
 
@@ -50,7 +51,6 @@
 - [Custom createElement](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/CustomCreateElement.md)
 - [DOM Events](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/DOMEvents.md)
 - [이벤트 전파](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/EventPropagation.md)
-- [RegExp](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/RegExp.md)
 
 ### HTML & CSS
 

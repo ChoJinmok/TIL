@@ -75,6 +75,26 @@ const regExp = /is/g;
 target.match(regExp); // -> ["is", "is"]
 ```
 
+### 3.4. String.prototype.replace
+
+- 대상 문자열에서 첫 번째 인수로 전달받은 문자열 또는 정규표현식을 검색하여 두 번째 인수로 전달한 문자열로 치환한 문자열을 반환
+- `$&`는 검색된 문자열을 의미, `$(숫자)`는 검색된 그룹들을 의미한다.
+
+```javascript
+const str = "Hello world";
+
+str.replace("world", "<strong>$&</strong>"); // -> Hello <strong>world</strong>
+```
+
+```javascript
+const str = "coding everything";
+const regExp = /(\w+)\s(\w+)/g;
+
+str.replace(regExp, "$2, $1"); // -> everything, coding
+```
+
+- 두번째 인자로 치환 함수를 전달할 수도 있다. 치환 함수의 첫번째 이수로는 매치한 결과가 들어오게 된다.
+
 ## 4. 플래그
 
 - 정규 표현식의 검색 방식을 설정하기 위해 사용
@@ -128,6 +148,16 @@ const regExp = /is/;
 regExp.test(target);
 
 target.match(regExp);
+```
+
+- 특수 문자인 경우 `\`를 앞에 붙여서 이스케이프 문자로 만들어서 패턴에서 사용되는 기호와 구분 한다.
+
+```javascript
+const target = ".[]{}()^$|?*+";
+
+const regExp = /\[/;
+
+target.match(regExp); // -> ["["]
 ```
 
 ### 5.2. 임의의 문자열 검색
@@ -204,6 +234,54 @@ const target = "color colour";
 const regExp = /colou?r/g;
 
 target.match(regExp); // -> ["color", "colour"]
+```
+
+- `*`는 앞선 패턴이 없거나 최소 한번 이상 반복되는 문자열
+
+```javascript
+const target = "gray gry graay graaay";
+
+const regExp = /gra*y/g;
+
+target.match(regExp); // -> ["gray", "gry", "graay", "graaay"]
+```
+
+- `?`가 반복 패턴(수량자) 뒤에 오게 되면 반복 패턴의 범위중 가장 작은 숫자를 의미하게 된다.
+
+```javascript
+const target = "gray gry graay graaay";
+
+// '*'의 범위중 가장 작은 숫자는 0이므로 '*?'는 0개가 반복되는 것을 의미한다.
+const regExp = /g.*?/g;
+
+target.match(regExp); // -> ["g", "g", "g", "g"]
+```
+
+```javascript
+const target = "gray gry graay graaay";
+
+// '+'의 범위중 가장 작은 숫자는 1이므로 '+?'는 1개가 반복되는 것을 의미한다.
+const regExp = /g.+?/g;
+
+target.match(regExp); // -> ["gr", "gr", "gr", "gr"]
+```
+
+- 다음과 같은 상황에서 활용해서 사용된다.
+
+```javascript
+const target = "<div>test</div><div>test2</div>";
+
+const regExp = /<div>.+<\/div>/g;
+
+target.match(regExp); // -> ["<div>test</div><div>test2</div>"]
+```
+
+```javascript
+const target = "<div>test</div><div>test2</div>";
+
+const regExp = /<div>.+?<\/div>/g;
+
+target.match(regExp); // -> ["<div>test</div>", "<div>test2</div>"]
 ```
 
 ### 5.4. OR 검색
@@ -330,6 +408,7 @@ target.match(regExp); // -> ["AA BB Aa Bb"]
 ### 5.6. 시작 위치로 검색
 
 - `[]` 밖의 `^`은 문자열의 시작을 의미
+- 플래그에서 `m` 멀티 라인을 넣어주면 라인 별로 검색
 
 ```javascript
 const target = "https://poiemaweb.com";
@@ -340,9 +419,12 @@ const regExp = /^https/;
 regExp.test(target); // -> true
 ```
 
+- `\A`도 문자열의 시작을 의미하지만 플래그의 `m`을 사용해도 옵션이 적용되지 않는다.
+
 ### 5.7. 마지막 위치로 검색
 
 - `$`는 문자열의 마지막을 의미
+- 플래그에서 `m` 멀티 라인을 넣어주면 라인 별로 검색
 
 ```javascript
 const target = "https://poiemaweb.com";
@@ -353,7 +435,45 @@ const regExp = /com$/;
 regExp.test(target); // -> true
 ```
 
-### 5.8. 그룹
+- `\Z`도 문자열의 마지막을 의미하지만 플래그의 `m`을 사용해도 옵션이 적용되지 않는다.
+
+### 5.8. 단어의 경계
+
+- `\b`는 단어의경계를 의미 (boundary를 의미)
+
+```javascript
+const target = "Ya ya YaYaYa Ya";
+
+// 단어 앞에서 사용되는 'Ya'만 검색
+const regExp = /\bYa/g;
+
+// 가운데 'YaYaYa' 중 시작하는 'Ya'를 찾는다.
+target.match(regExp); // -> ["Ya", "Ya", "Ya"]
+```
+
+```javascript
+const target = "Ya ya YaYaYa Ya";
+
+// 단어 뒤에서 사용되는 'Ya'만 검색
+const regExp = /Ya\b/g;
+
+// 가운데 'YaYaYa' 중 끝나는 'Ya'를 찾는다.
+target.match(regExp); // -> ["Ya", "Ya", "Ya"]
+```
+
+- `\B`는 `\b`와 반대로 동작
+
+```javascript
+const target = "Ya ya YaYaYa Ya";
+
+// 단어 뒤에서 사용되지 않는 'Ya'만 검색
+const regExp = /Ya\B/g;
+
+// 가운데 'YaYaYa' 중 시작하는 'Ya'와 중간에 위치한 'Ya'를 찾는다.
+target.match(regExp); // -> ["Ya", "Ya"]
+```
+
+### 5.9. 그룹
 
 - `()`를 사용하여 그룹을 묶어 줄 수 있다.
 
@@ -377,9 +497,64 @@ const regExp = /gr(?:a|e)y/g;
 target.match(regExp); // -> ['grey', 'gray']
 ```
 
-## 6. 자주 사용하는 정규표현식
+## 6. 전방/후방 탐색
 
-### 6.1. 숫자로만 이루어진 문자열인지 검사
+- `?=`(전방 탐색)와 `?<=`(후방 탐색)는 뒤에오는 패턴을 검색하는데는 사용하지만 결과에서는 제외한다.
+
+```javascript
+const target = "AAAX---aaax---111";
+
+const regExp = /\w+(?=X)/g;
+
+target.match(regExp); // -> ['AAA']
+```
+
+```javascript
+const target = "AAAX---aaax---111";
+
+const regExp = /\w+(?=\w)/g;
+
+target.match(regExp); // -> ['AAA', 'aaa', '11']
+```
+
+```javascript
+const target = "XAAA---xaaa---111";
+
+const regExp = /(?<=X)\w+/g;
+
+target.match(regExp); // -> ['AAA']
+```
+
+```javascript
+const target = "XAAA---xaaa---111";
+
+const regExp = /(?<=\w)\w+/g;
+
+target.match(regExp); // -> ['AAA', 'aaa', '11']
+```
+
+- `=`대신 `!`를 사용해서 부정형으로 사용할 수도 있다.
+
+```javascript
+const target = "I paid $30 for 100 apples.";
+
+const regExp = /(?<=\$)\d+/g;
+
+target.match(regExp); // -> ['30']
+```
+
+```javascript
+const target = "I paid $30 for 100 apples.";
+
+// \b 넣어서 '$30'의 '0'은 검색되지 않게 한다.
+const regExp = /\b(?<!\$)\d+/g;
+
+target.match(regExp); // -> ['100']
+```
+
+## 7. 자주 사용하는 정규표현식
+
+### 7.1. 숫자로만 이루어진 문자열인지 검사
 
 ```javascript
 // 처음과 끝 모두 숫자이고 최소 한 번 이상 반복되는 문자열
@@ -387,7 +562,7 @@ target.match(regExp); // -> ['grey', 'gray']
 /^\d+$/.test("12345"); // -> true
 ```
 
-### 6.2. 하나 이상의 공백으로 시작하는지 검사
+### 7.2. 하나 이상의 공백으로 시작하는지 검사
 
 - `\s`는 여러 가지 공백 문자(스페이스, 탭 등)를 의미
 - [\t\r\n\v\f]와 같은 의미
@@ -397,9 +572,27 @@ target.match(regExp); // -> ['grey', 'gray']
 /^[\s]+/.test(" Hi!"); // -> true
 ```
 
-## 7. 문법 정리
+### 7.3. 원하는 데이터 찾아서 가지고 오기
 
-### 7.1. Groups and ranges
+```javascript
+const url = "https://www.youtu.be/-ZClicWm0zM";
+
+// 데이터로 가지고 올 필요 없는 그룹은 ?: 를 붙여준다.
+const regExp = /(?:https?:\/\/)?(?:www\.)?youtu.be\/([a-zA-Z0-9-]{11})/;
+
+url.match(regExp);
+// -> ['https://www.youtu.be/-ZClicWm0zM', '-ZClicWm0zM', index: 0, input: 'https://www.youtu.be/-ZClicWm0zM', groups: undefined]
+// 배열을 첫번째 요소로 매칭되는 결과의 전체 문자열이 들어온다.
+// 그 다음 부터 매칭된 그룹의 데이터가 들어오게된다.
+
+const result = url.match(regExp);
+
+result[1]; // -> -ZClicWm0zM
+```
+
+## 8. 문법 정리
+
+### 8.1. Groups and ranges
 
 | Character | 뜻                                     |
 | --------- | -------------------------------------- |
@@ -409,7 +602,7 @@ target.match(regExp); // -> ['grey', 'gray']
 | `[^]`     | 부정 문자셋, 괄호안의 어떤 문가 아닐때 |
 | `(?:)`    | 찾지만 기억하지는 않음                 |
 
-### 7.2. Quantifiers
+### 8.2. Quantifiers
 
 | Character   | 뜻                                  |
 | ----------- | ----------------------------------- |
@@ -420,7 +613,7 @@ target.match(regExp); // -> ['grey', 'gray']
 | `{min,}`    | 최소                                |
 | `{min,max}` | 최소, 그리고 최대                   |
 
-### 7.3. Boundary-type
+### 8.3. Boundary-type
 
 | Character | 뜻               |
 | --------- | ---------------- |
@@ -429,7 +622,7 @@ target.match(regExp); // -> ['grey', 'gray']
 | `^`       | 문장의 시작      |
 | `$`       | 문장의 끝        |
 
-### 7.4. Character classes
+### 8.4. Character classes
 
 | Character | 뜻                           |
 | --------- | ---------------------------- |
@@ -442,8 +635,10 @@ target.match(regExp); // -> ['grey', 'gray']
 | `\s`      | space 공백                   |
 | `\S`      | space 공백 아님              |
 
-## 8. Reference
+## 9. Reference
 
 - [모던 자바스크립트 Deep Dive](http://www.yes24.com/Product/Goods/92742567)
 - [정규표현식, 더이상 미루지 말자](https://www.youtube.com/watch?v=t3M6toIflyQ) 유튜브 영상
 - ['dream-ellie' GitHub의 'regex' repo README](https://github.com/dream-ellie/regex)
+- [생활코딩의 '정규표현식 패턴들'](https://opentutorials.org/course/909/5143)
+- [전방탐색과 후방탐색](https://junstar92.tistory.com/373)

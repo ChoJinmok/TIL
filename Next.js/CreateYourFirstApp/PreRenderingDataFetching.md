@@ -313,3 +313,57 @@ export default function Home({ allPostsData }) {
 파일 시스템에서 외부 데이터를 성공적으로 가져오고 이 데이터로 인덱스 페이지를 미리 렌더링했다.
 
 ![index-page (1)](<./images/index-page (1).png>)
+
+<br />
+
+## 6. [getStaticProps](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation) Details
+
+### 6.1. Fetch External API or Query Database
+
+`lib/posts.js`에서는 파일 시스템에서 데이터를 가져오는 `getSortedPostsData`를 구현했다. 외부 API endpoint와 같은 다른 소스에서도 데이터를 가져올 수 있다:
+
+```jsx
+export async function getSortedPostsData() {
+  // 파일 시스템 대신,
+  // 외부 API endpoint에서 게시물 데이터 fetch
+  const res = await fetch("..");
+  return res.json();
+}
+```
+
+> Next.js는 클라이언트와 서버 모두에서 [`fetch()`](https://nextjs.org/docs/basic-features/supported-browsers-features)를 폴리필한다. import할 필요가 없다.
+
+데이터베이스를 직접 쿼리할 수도 있다:
+
+```jsx
+import someDatabaseSDK from 'someDatabaseSDK'
+
+const databaseClient = someDatabaseSDK.createClient(...)
+
+export async function getSortedPostsData() {
+  // 파일 시스템 대신,
+  // 데이터베이스에서 게시물 데이터 fetch
+  return databaseClient.query('SELECT posts...')
+}
+```
+
+이는 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)가 **서버 사이드에서만 실행**되기 때문에 가능하다. 클라이언트 사이드에서 실행되지 않는다. 브라우저용 JS 번들에도 포함되지 않는다. 즉, 브라우저로 보내지 않고도 직접 데이터베이스 쿼리와 같은 코드를 작성할 수 있다.
+
+### 6.2. Development vs. Production
+
+- In **development** (`npm run dev` or `yarn dev`s): [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)는 모든 요청에서 실행된다.
+- In **production**: [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)는 빌드 시 실행된다. [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)에 의해 반환된 [`fallback` key](https://nextjs.org/docs/api-reference/data-fetching/get-static-paths#fallback-false)를 사용하면 더 효율적이다.
+
+빌드 시 실행되도록 되어 있기 때문에 쿼리 매개 변수 또는 HTTP 헤더와 같이 요청 시에만 사용할 수 있는 데이터를 사용할 수 없다.
+
+### 6.3. 페이지에서만 사용할 수 있다.
+
+[`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)는 [**페이지**](https://nextjs.org/docs/basic-features/pages)에서만 export할 수 있다. 페이지가 아닌 파일에서는 export할 수 없다.
+
+페이지가 렌더링되기 전에 React에 필요한 모든 데이터가 있어야 하기 때문이다.
+
+### 6.4. Request Time에 데이터를 fetch해야 하는 경우 어떻게 해야 할까?
+
+[정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)은 빌드 시 한 번 발생하므로 자주 업데이트되거나 사용자 요청마다 변경되는 데이터에는 적합하지 않다.
+
+이와 같이 데이터가 변경될 가능성이 있는 경우 [**서버 사이드 렌더링**](https://nextjs.org/docs/basic-features/pages#server-side-rendering)을 사용할 수 있다.

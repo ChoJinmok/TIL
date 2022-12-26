@@ -239,3 +239,77 @@ export function getSortedPostsData() {
 이제 블로그 데이터가 구문 분석되었으므로 인덱스 페이지(`pages/index.js`)에 추가해야 한다. [`getStaticProps()`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)라는 Next.js 데이터 fetching 메서드를 사용하여 이 작업을 수행할 수 있다. 다음 섹션에서는 `getStaticProps()`를 구현하는 방법을 배운다.
 
 ![index-page](./images/index-page.png)
+
+<br />
+
+## 5. Implement getStaticProps
+
+### 5.1. Pre-rendering in Next.js
+
+Next.js에는 **정적 생성**과 **서버 사이드 렌더링** 이 두 가지 사전 렌더링 형식이 있다. 차이점은 페이지에 대한 HTML을 생성하는 **시기**이다.
+
+- **정적 생성**은 **빌드 시** HTML을 생성하는 사전 렌더링 방식이다. 그러면 미리 렌더링된 HTML이 각 요청에서 재사용된다.
+- **서버 사이드 렌더링**은 **각 요청**에서 HTML을 생성하는 사전 렌더링 방식이다.
+
+Next.js를 사용하면 각 페이지에 사용할 사전 렌더링 방식을 **선택**할 수 있다.
+
+### 5.2. Using Static Generation (`getStaticProps()`)
+
+`getSortedPostsData`를 import 하고 `pages/index.js`의 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation) 내에서 호출해야 한다.
+
+`pages/index.js`를 열고 export한 `Home` component 위에 다음 코드를 추가한다.
+
+```jsx
+import { getSortedPostsData } from "../lib/posts";
+
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+  return {
+    props: {
+      allPostsData,
+    },
+  };
+}
+```
+
+`getStaticProps`의 `props` 객체 내에서 `allPostsData`를 반환하면 블로그 게시물이 `Home` component에 props로 전달된다.
+
+```jsx
+export default function Home ({ allPostsData }) { ... }
+```
+
+블로그 게시물을 표시하기 위해 `Home` component를 업데이트하여 자기 소개가 있는 섹션 아래에 데이터가 있는 다른 `<section>` 태그를 추가해 보겠다. props을 `()`에서 `({ allPostsData })`로 변경해라.
+
+```jsx
+export default function Home({ allPostsData }) {
+  return (
+    <Layout home>
+      {/* 여기에 기존 코드 유지 */}
+
+      {/* 기존 <section> 태그 아래에 이 <section> 태그를 추가한다. */}
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2 className={utilStyles.headingLg}>Blog</h2>
+        <ul className={utilStyles.list}>
+          {allPostsData.map(({ id, date, title }) => (
+            <li className={utilStyles.listItem} key={id}>
+              {title}
+              <br />
+              {id}
+              <br />
+              {date}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </Layout>
+  );
+}
+```
+
+이제 http://localhost:3000에 액세스하면 블로그 데이터가 표시된다.
+
+![blog-data](./images/blog-data.png)
+
+파일 시스템에서 외부 데이터를 성공적으로 가져오고 이 데이터로 인덱스 페이지를 미리 렌더링했다.
+
+![index-page (1)](<./images/index-page (1).png>)

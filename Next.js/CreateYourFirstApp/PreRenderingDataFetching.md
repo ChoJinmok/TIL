@@ -362,8 +362,67 @@ export async function getSortedPostsData() {
 
 페이지가 렌더링되기 전에 React에 필요한 모든 데이터가 있어야 하기 때문이다.
 
-### 6.4. Request Time에 데이터를 fetch해야 하는 경우 어떻게 해야 할까?
+### 6.4. 요청 시 데이터를 fetch해야 하는 경우 어떻게 해야 할까?
 
 [정적 생성](https://nextjs.org/docs/basic-features/pages#static-generation-recommended)은 빌드 시 한 번 발생하므로 자주 업데이트되거나 사용자 요청마다 변경되는 데이터에는 적합하지 않다.
 
 이와 같이 데이터가 변경될 가능성이 있는 경우 [**서버 사이드 렌더링**](https://nextjs.org/docs/basic-features/pages#server-side-rendering)을 사용할 수 있다.
+
+<br />
+
+## 7. 요청 시 데이터 fetch
+
+빌드가 아닌 **요청 시**에 데이터를 가져와야 하는 경우 [**서버 사이드 렌더링**](https://nextjs.org/docs/basic-features/pages#server-side-rendering)을 시도할 수 있다:
+
+![server-side-rendering-with-data](./images/server-side-rendering-with-data.png)
+
+[서버 사이드 렌더링](https://nextjs.org/docs/basic-features/pages#server-side-rendering)을 사용하려면 페이지에서 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation) 대신 [`getServerSideProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getserversideprops-server-side-rendering)를 export 해야 한다.
+
+### 7.1. Using `getServerSideProps`
+
+다음은 [`getServerSideProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getserversideprops-server-side-rendering)의 코드이다.
+
+```jsx
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      // component의 props
+    },
+  };
+}
+```
+
+요청 시 [`getServerSideProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getserversideprops-server-side-rendering)가 호출되기 때문에 해당 매개변수(`context`)에는 요청별 매개변수가 포함된다.
+
+요청 시 데이터를 가져와야 하는 페이지를 미리 렌더링해야 하는 경우에만 [`getServerSideProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getserversideprops-server-side-rendering)를 사용해야 한다. [TTFB](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/)(Time to First Byte)는 서버가 모든 요청에 ​​대한 결과를 계산해야 하고 추가 구성 없이 [CDN](https://vercel.com/docs/concepts/edge-network/overview)에서 결과를 캐시할 수 없기 때문에 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)보다 느리다.
+
+### 7.2. Client-side Rendering
+
+데이터를 미리 렌더링할 필요가 **없는** 경우 다음 전략([**클라이언트 사이드 렌더링**](https://nextjs.org/docs/basic-features/data-fetching/overview#fetching-data-on-the-client-side))을 사용할 수도 있다:
+
+- 외부 데이터가 필요하지 않은 페이지 부분을 정적으로 생성(사전 렌더링)한다.
+- 페이지가 로드되면 JavaScript를 사용하여 클라이언트에서 외부 데이터를 가져오고 나머지 부분을 채운다.
+
+![client-side-rendering](./images/client-side-rendering.png)
+
+이 방식은 사용자 대시보드 페이지에 적합하다. 대시보드는 비공개 사용자 페이지이므로 SEO와 관련이 없으며 페이지를 [미리 렌더링](https://nextjs.org/docs/basic-features/pages#pre-rendering)할 필요가 없다. 데이터는 자주 업데이트되므로 요청 시 데이터를 가져와야한다.
+
+### 7.3. SWR
+
+Next.js 팀은 [**SWR**](https://swr.vercel.app/ko)이라는 데이터 fetch를 위한 React hook을 만들었다. 클라이언트 사이드에서 데이터를 가져오는 경우 이를 적극 권장한다. 캐싱, 재검증, 포커스 추적, 일정 간격으로 다시 fetch 등을 처리한다. 여기서는 자세한 내용을 다루지 않지만 다음은 사용 예이다:
+
+```jsx
+import useSWR from "swr";
+
+function Profile() {
+  const { data, error } = useSWR("/api/user", fetch);
+
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
+  return <div>hello {data.name}!</div>;
+}
+```
+
+자세한 내용은 [SWR 문서](https://swr.vercel.app/ko)를 확인
+
+> 다시 말하지만, [Data Fetching 문서](https://nextjs.org/docs/basic-features/data-fetching/overview)에서 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation) 및 [`getServerSideProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getserversideprops-server-side-rendering)에 대한 자세한 정보를 확인할 수 있다.

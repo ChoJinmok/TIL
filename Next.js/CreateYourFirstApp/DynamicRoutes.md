@@ -79,3 +79,70 @@ export async function getStaticProps({ params }) {
 ```
 
 ![how-to-dynamic-routes](./images/how-to-dynamic-routes.png)
+
+<br />
+
+## 2. Implement getStaticPaths
+
+파일 설정:
+
+- `pages/posts` 디렉터리 내에 `[id].js`라는 파일을 만든다.
+- 또한 `pages/posts` 디렉토리에서 `first-post.js`를 제거 — 더 이상 사용하지 않는다.
+
+그런 다음 편집기에서 `pages/posts/[id].js`를 열고 다음 코드를 붙여넣는다. `...`는 나중에 채울거다.
+
+```jsx
+import Layout from "../../components/layout";
+
+export default function Post() {
+  return <Layout>...</Layout>;
+}
+```
+
+그런 다음 `lib/posts.js`를 열고 하단에 다음 `getAllPostIds` 함수를 추가한다. `posts` 디렉토리에 있는 파일 이름 목록(`.md` 제외)을 반환한ㄴ다.
+
+```jsx
+export function getAllPostIds() {
+  const fileNames = fs.readdirSync(postsDirectory);
+
+  // 다음과 같은 배열을 return 한다:
+  // [
+  //   {
+  //     params: {
+  //       id: 'ssg-ssr'
+  //     }
+  //   },
+  //   {
+  //     params: {
+  //       id: 'pre-rendering'
+  //     }
+  //   }
+  // ]
+  return fileNames.map((fileName) => {
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, ""),
+      },
+    };
+  });
+}
+```
+
+**important**: 반환된 목록은 단순한 문자열 배열이 아니라 위의 주석처럼 보이는 개체 배열이어야 한다. 각 객체는 `params` 키를 가지고 있어야 하며 `id` 키가 있는 객체를 포함해야 한다(파일 이름에 `[id]`를 사용하기 때문). 그렇지 않으면 [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)가 실패한다.
+
+마지막으로 `getAllPostIds` 함수를 가져와 [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation) 내에서 사용한다. `pages/posts/[id].js`를 열고 내보낸 `Post` component 위에 다음 코드를 복사한다.
+
+```jsx
+import { getAllPostIds } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const paths = getAllPostIds();
+  return {
+    paths,
+    fallback: false,
+  };
+}
+```
+
+- `paths`는 `pages/posts/[id].js`가 정의한 매개변수를 포함하고 `getAllPostIds()`가 반환한 경로 배열이다. [`paths` key 문서](https://nextjs.org/docs/basic-features/data-fetching/overview#the-paths-key-required)에서 자세히 알아보기.
+- 지금은 [`fallback: false`](https://nextjs.org/docs/basic-features/data-fetching#fallback-false) 무시하고 넘어가기.

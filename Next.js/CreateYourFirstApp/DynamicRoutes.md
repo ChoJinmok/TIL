@@ -146,3 +146,74 @@ export async function getStaticPaths() {
 
 - `paths`는 `pages/posts/[id].js`가 정의한 매개변수를 포함하고 `getAllPostIds()`가 반환한 경로 배열이다. [`paths` key 문서](https://nextjs.org/docs/basic-features/data-fetching/overview#the-paths-key-required)에서 자세히 알아보기.
 - 지금은 [`fallback: false`](https://nextjs.org/docs/basic-features/data-fetching#fallback-false) 무시하고 넘어가기.
+
+<br />
+
+## 3. Implement getStaticProps
+
+주어진 `id`로 게시물을 렌더링하기 위해 필요한 데이터를 가져와야 한다.
+
+이렇게 하려면 `lib/posts.js`의 가장 아래에 `getPostData` 함수를 추가한다. `id`를 기반으로 게시물 데이터를 반환한다.
+
+```jsx
+export function getPostData(id) {
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+
+  // gray-matter을 사용하여 게시물 메타데이터 섹션을 구문 분석한다.
+  const matterResult = matter(fileContents);
+
+  // 데이터를 id와 결합
+  return {
+    id,
+    ...matterResult.data,
+  };
+}
+```
+
+그런 다음 `pages/posts/[id].js`를 열고 다음 줄을 바꿔준다.
+
+```jsx
+import { getAllPostIds, getPostData } from "../../lib/posts";
+
+export async function getStaticProps({ params }) {
+  const postData = getPostData(params.id);
+  return {
+    props: {
+      postData,
+    },
+  };
+}
+```
+
+게시물 페이지는 이제 `getStaticProps`의 `getPostData` 함수를 사용하여 게시물 데이터를 가져오고 이를 props로 반환한다.
+
+이제 `postData`를 사용하도록 `Post` component를 업데이트한다. `pages/posts/[id].js`에서 export 한 `Post` component를 다음 코드로 바꾼다.
+
+```jsx
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {postData.title}
+      <br />
+      {postData.id}
+      <br />
+      {postData.date}
+    </Layout>
+  );
+}
+```
+
+### 3.1. Something Wrong?
+
+오류가 발생하면 코드를 확인:
+
+- `pages/posts/[id].js`는 [다음](https://github.com/vercel/next-learn/blob/master/basics/dynamic-routes-step-1/pages/posts/%5Bid%5D.js)과 같아야 한다.
+- `lib/posts.js`는 [다음](https://github.com/vercel/next-learn/blob/master/basics/dynamic-routes-step-1/lib/posts.js)과 같아야 한다.
+- (여전히 작동하지 않는 경우) 나머지 코드는 [다음](https://github.com/vercel/next-learn/tree/master/basics/dynamic-routes-step-1)과 같아야 한다.
+
+여전히 문제가 있는 경우 [GitHub Discussions](https://github.com/vercel/next.js/discussions)에서 커뮤니티에 자유롭게 질문해라. 다른 사람들이 볼 수 있도록 코드를 GitHub에 푸시하고 링크하면 된다.
+
+### 3.2. 요약
+
+![how-to-dynamic-routes (1)](<./images/how-to-dynamic-routes%20(1).png>)

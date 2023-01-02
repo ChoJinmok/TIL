@@ -217,3 +217,80 @@ export default function Post({ postData }) {
 ### 3.2. 요약
 
 ![how-to-dynamic-routes (1)](<./images/how-to-dynamic-routes%20(1).png>)
+
+<br />
+
+## 4. Render Markdown
+
+마크다운 콘텐츠를 렌더링하기 위해 우리는 [`remark`](https://github.com/remarkjs/remark) 라이브러리를 사용할 것이다.
+
+```console
+npm install remark remark-html
+```
+
+그런 다음 `lib/posts.js`를 열고 다음을 파일 맨 위에 추가한다.
+
+```jsx
+import { remark } from "remark";
+import html from "remark-html";
+```
+
+그리고 `remark`를 사용하기 위해 `getPostData()` 함수를 업데이트.
+
+```jsx
+export async function getPostData(id) {
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+
+  // gray-matter을 사용하여 게시물 메타데이터 섹션을 구문 분석
+  const matterResult = matter(fileContents);
+
+  // remark을 사용하여 마크다운을 HTML 문자열로 변환
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+  const contentHtml = processedContent.toString();
+
+  // 데이터를 id 및 contentHtml과 결합
+  return {
+    id,
+    contentHtml,
+    ...matterResult.data,
+  };
+}
+```
+
+> **important**: `remark`는 `await`를 사용해야 하므로 `getPostData`에 **`async`** 키워드를 추가했다. `async`/`await`를 사용하면 데이터를 [비동기적](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)으로 가져올 수 있다.
+
+즉, `getPostData`를 호출할 때 `await`를 사용하려면 `pages/posts/[id].js`에서 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)를 업데이트해야 한다.
+
+```jsx
+export async function getStaticProps({ params }) {
+  // 다음과 같이 "await" 키워드를 추가한다:
+  const postData = await getPostData(params.id);
+
+  return {
+    props: {
+      postData,
+    },
+  };
+}
+```
+
+마지막으로, [`dangerlySetInnerHTML`](https://reactjs.org/docs/dom-elements.html#dangerouslysetinnerhtml)을 사용하여 `contentHtml`을 렌더링하도록 `pages/posts/[id].js`의 `Post` component를 업데이트한다.
+
+```jsx
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {postData.title}
+      <br />
+      {postData.id}
+      <br />
+      {postData.date}
+      <br />
+      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+    </Layout>
+  );
+}
+```

@@ -294,3 +294,98 @@ export default function Post({ postData }) {
   );
 }
 ```
+
+<br />
+
+## 5. Polishing the Post Page
+
+### 5.1. Adding `title` to the Post Page
+
+`pages/posts/[id].js`에서 게시물 데이터를 사용하여 `title` 태그를 추가해 보겠다. 파일 상단에 [`next/head`](https://nextjs.org/docs/api-reference/next/head)에 대한 import를 추가하고 `Post` component를 업데이트하여 `title` 태그를 추가한다:
+
+```jsx
+// import 추가
+import Head from "next/head";
+
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {/* <Head> tag 추가 */}
+      <Head>
+        <title>{postData.title}</title>
+      </Head>
+
+      {/* 여기에 기존 코드 유지 */}
+    </Layout>
+  );
+}
+```
+
+### 5.2. Formatting the Date
+
+날짜 형식을 지정하려면 [`date-fns`](https://date-fns.org/) 라이브러리를 사용합니다.
+
+```console
+npm install date-fns
+```
+
+다음으로 `components/date.js`에 `Date` component를 추가한다.
+
+```jsx
+import { parseISO, format } from "date-fns";
+
+export default function Date({ dateString }) {
+  const date = parseISO(dateString);
+  return <time dateTime={dateString}>{format(date, "LLLL d, yyyy")}</time>;
+}
+```
+
+> **Note**: [date-fns](https://date-fns.org/v2.16.1/docs/format) 웹 사이트에서 `format()` 문자열 옵션을 볼 수 있다.
+
+이제 `pages/posts/[id].js`를 열고 파일 상단에 `Date` component import를 추가하고 `{postData.date}`로 사용한다.
+
+```jsx
+// import 추가
+import Date from "../../components/date";
+
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {/* 여기에 기존 코드 유지 */}
+
+      {/* {postData.date}를 다음으로 교체 */}
+      <Date dateString={postData.date} />
+
+      {/* 여기에 기존 코드 유지 */}
+    </Layout>
+  );
+}
+```
+
+http://localhost:3000/posts/pre-rendering에 접근하면 **"January 1, 2020"**로 날짜가 표시된다.
+
+### 5.3. Adding CSS
+
+마지막으로 이전에 추가한 `styles/utils.module.css` 파일을 사용하여 일부 CSS를 추가해 보겠다. `pages/posts/[id].js`를 연 다음 CSS 파일을 import 하고 `Post` component를 다음 코드로 바꾼다:
+
+```jsx
+// 파일 상단에 import 추가
+import utilStyles from "../../styles/utils.module.css";
+
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      <Head>
+        <title>{postData.title}</title>
+      </Head>
+      <article>
+        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+        <div className={utilStyles.lightText}>
+          <Date dateString={postData.date} />
+        </div>
+        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+      </article>
+    </Layout>
+  );
+}
+```

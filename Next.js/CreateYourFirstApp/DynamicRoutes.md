@@ -389,3 +389,34 @@ export default function Post({ postData }) {
   );
 }
 ```
+
+<br />
+
+## 6. Polishing the Index Page
+
+다음으로 인덱스 페이지(`pages/index.js`)를 업데이트하겠다. [`Link`](https://nextjs.org/docs/api-reference/next/link) component를 사용하여 각 게시물 페이지에 링크를 추가해야 한다.
+
+`pages/index.js`를 열고 [`Link`](https://nextjs.org/docs/api-reference/next/link) 및 `Date` 파일 상단에 다음 import를 추가한다:
+
+```jsx
+import Link from "next/link";
+import Date from "../components/date";
+```
+
+그런 다음 동일한 파일의 `Home` component 하단 근처에서 `li` 태그를 다음으로 바꾼다.
+
+```jsx
+<li className={utilStyles.listItem} key={id}>
+  <Link href={`/posts/${id}`}>{title}</Link>
+  <br />
+  <small className={utilStyles.lightText}>
+    <Date dateString={date} />
+  </small>
+</li>
+```
+
+http://localhost:3000으로 이동하면 이제 페이지에 각 기사에 대한 링크가 있다:
+
+![link](./images/links.png)
+
+> 작동하지 않는 경우 코드가 [다음과 같은지](https://github.com/vercel/next-learn/blob/master/basics/api-routes-starter/pages/posts/%5Bid%5D.js) 확인

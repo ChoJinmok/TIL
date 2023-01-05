@@ -11,3 +11,5 @@
 ### 4. [Pre-rendering and Data Fetching](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/PreRenderingDataFetching.md)
 
 ### 5. [Dynamic Routes](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/DynamicRoutes.md)
+
+### 5. [API Routes](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/APIRoutes.md)

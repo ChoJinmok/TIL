@@ -420,3 +420,107 @@ http://localhost:3000으로 이동하면 이제 페이지에 각 기사에 대�
 ![link](./images/links.png)
 
 > 작동하지 않는 경우 코드가 [다음과 같은지](https://github.com/vercel/next-learn/blob/master/basics/api-routes-starter/pages/posts/%5Bid%5D.js) 확인
+
+<br />
+
+## 7. Dynamic Routes Details
+
+[동적 경로](https://nextjs.org/docs/routing/dynamic-routes)에 대해 알아야 할 것들이 있다.
+
+### 7.1. Fetch External API or Query Database
+
+[`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)와 마찬가지로 [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)는 데이터 소스에서 데이터를 가져올 수 있다. 예제에서 `getAllPostIds`([`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)에서 사용됨)는 외부 API 끝점에서 fetch 할 수 있었다:
+
+```jsx
+export async function getAllPostIds() {
+  // 파일 시스템 대신,
+  // 외부 API 끝점에서 게시물 데이터 가져오기
+  const res = await fetch("..");
+  const posts = await res.json();
+  return posts.map((post) => {
+    return {
+      params: {
+        id: post.id,
+      },
+    };
+  });
+}
+```
+
+### 7.2. Development vs. Production
+
+- In **development** (`npm run dev` or `yarn dev`): [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)는 모든 요청에서 실행된다.
+- In **production**: [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)는 빌드 시 실행된다.
+
+### 7.3. Fallback
+
+[`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)에서 `fallback: false`를 반환하는데 이것은 무엇을 의미 할까?
+
+[`fallback`이 `false`](https://nextjs.org/docs/basic-features/data-fetching/overview#fallback-false)이면 [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)에서 return 하지 않은 모든 경로는 **404 페이지**가 된다.
+
+[`fallback`이 `true`](https://nextjs.org/docs/basic-features/data-fetching/overview#fallback-true)이면 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)의 동작이 변경된다:
+
+- [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)에서 반환된 경로는 빌드 시 HTML로 렌더링된다.
+- 빌드 시 생성되지 않은 경로는 404 페이지를 생성하지 않는다. 대신 Next.js는 그러한 경로에 대한 요청에서 "fallback" 페이지를 제공한다.
+- 백그라운드에서 Next.js는 요청된 경로를 정적으로 생성한다. 동일한 경로에 대한 후속 요청은 빌드 시 미리 렌더링된 다른 페이지와 마찬가지로 생성된 페이지를 제공한다.
+
+[`fallback`이 `blocking`](https://nextjs.org/docs/basic-features/data-fetching/overview#fallback-blocking)되면 새 경로는 `getStaticProps`로 서버 측에서 렌더링되고 향후 요청을 위해 캐시되므로 경로당 한 번만 발생한다.
+
+[`fallback` 문서](https://nextjs.org/docs/api-reference/data-fetching/get-static-paths#fallback-false)에서 `fallback: true` 및 `fallback: 'blocking'`에 대해 자세히 알아볼 수 있다.
+
+### 7.4. Catch-all Routes
+
+괄호 안에 세 개의 점(`...`)을 추가하여 모든 경로를 포착하도록 동적 경로를 확장할 수 있다. 예를 들어:
+
+- `pages/posts/[...id].js`는 `/posts/a`와 일치하지만 `/posts/a/b`, `/posts/a/b/c` 등과도 일치한다.
+
+이렇게 하면 [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)에서 다음과 같이 `id` 키의 값을 배열로 반환해야 한다:
+
+```jsx
+return [
+  {
+    params: {
+      // 정적으로 /posts/a/b/c 생성
+      id: ["a", "b", "c"],
+    },
+  },
+  //...
+];
+```
+
+그리고 `params.id`는 [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation)의 배열이 된다.
+
+```jsx
+export async function getStaticProps({ params }) {
+  // params.id ['a', 'b', 'c']과 같은 형태가 된다.
+}
+```
+
+자세한 내용은 [catch all routes 문서](https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes)를 참조
+
+### 7.5. Router
+
+Next.js 라우터에 액세스하려면 [`next/router`](https://nextjs.org/docs/api-reference/next/router)에서 [`useRouter`](https://nextjs.org/docs/api-reference/next/router#userouter) hook을 가져오면 된다.
+
+### 7.6. 404 Pages
+
+[`custom 404 페이지`](https://nextjs.org/docs/advanced-features/custom-error-page#404-page)를 만들려면 `pages/404.js`를 만든다. 이 파일은 빌드 시 정적으로 생성된다.
+
+```jsx
+// pages/404.js
+export default function Custom404() {
+  return <h1>404 - Page Not Found</h1>;
+}
+```
+
+자세한 내용은 [Error 페이지 문서](https://nextjs.org/docs/advanced-features/custom-error-page)를 참조
+
+### 7.7. More Examples
+
+[`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticprops-static-generation) 및 [`getStaticPaths`](https://nextjs.org/docs/basic-features/data-fetching/overview#getstaticpaths-static-generation)를 설명하기 위해 몇 가지 예제를 만들었다.
+
+- [markdown 파일을 사용하는 Blog Starter](https://github.com/vercel/next.js/tree/canary/examples/blog-starter) ([Deme](https://next-blog-starter.vercel.app/))
+- [WordPress Example](https://github.com/vercel/next.js/tree/canary/examples/cms-wordpress) ([Deme](https://next-blog-wordpress.vercel.app/))
+- [DatoCMS Example ](https://github.com/vercel/next.js/tree/canary/examples/cms-datocms) ([Deme](https://next-blog-datocms.vercel.app/))
+- [TakeShape Example](https://github.com/vercel/next.js/tree/canary/examples/cms-takeshape) ([Deme](https://next-blog-takeshape.vercel.app/))
+- [Sanity Example](https://github.com/vercel/next.js/tree/canary/examples/cms-sanity) ([Deme](https://next-blog-sanity.vercel.app/))

@@ -12,4 +12,6 @@
 
 ### 5. [Dynamic Routes](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/DynamicRoutes.md)
 
-### 5. [API Routes](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/APIRoutes.md)
+### 6. [API Routes](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/APIRoutes.md)
+
+### 7. [Deploying Your Next.js App](https://github.com/ChoJinmok/TIL/blob/master//Next.js/CreateYourFirstApp/Deploying.md)

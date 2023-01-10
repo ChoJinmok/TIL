@@ -62,3 +62,52 @@ Vercel은 헤드리스 콘텐츠, 커머스 또는 데이터베이스와 통합�
 > 도움말 사용 가능: 배포에 실패하면 언제든지 [GitHub Discussions](https://github.com/vercel/next.js/discussions)에서 도움을 받을 수 있다. 배포에 대해 자세히 알아보려면 [문서](https://nextjs.org/docs/deployment)를 살펴봐라.
 
 완료되면 **배포 URL**을 받게 된다. URL 중 하나를 클릭하면 Next.js 시작 페이지가 라이브로 표시된다.
+
+<br />
+
+## 3. Next.js and Vercel
+
+[Vercel](https://vercel.com/dashboard?utm_source=next-site&utm_medium=learnpages&utm_campaign=next-website)은 Next.js의 제작자가 만들고 Next.js를 최고 수준으로 지원한다:
+
+- [Static Generation](https://nextjs.org/docs/basic-features/pages#static-generation-recommended) 및 assets(JS, CSS, 이미지, 글꼴 등)을 사용하는 페이지는 [Vercel Edge Network](https://vercel.com/docs/concepts/edge-network/overview)에서 자동으로 제공된다.
+- [서버 사이드 렌더링](https://nextjs.org/docs/basic-features/pages#server-side-rendering) 및 [API Routes](https://nextjs.org/docs/api-routes/introduction)를 사용하는 페이지는 자동으로 격리된 [서버리스 함수](https://vercel.com/docs/concepts/functions/serverless-functions?utm_source=next-site&utm_medium=learnpages&utm_campaign=next-website)가 ​된다. 이를 통해 페이지 렌더링 및 API 요청을 무한대로 확장할 수 있다.
+
+Vercel에는 다음과 같은 더 많은 기능이 있다:
+
+- **사용자 지정 도메인**: Vercel에 배포되면 사용자 지정 도메인을 Next.js 앱에 할당할 수 있다. [문서](https://vercel.com/docs/concepts/projects/domains?utm_source=next-site&utm_medium=learnpages&utm_campaign=next-website)를 살펴보기.
+- **환경 변수**: Vercel에서 환경 변수를 설정할 수 있다. [문서](https://vercel.com/docs/concepts/deployments/configure-a-build#environment-variables?utm_source=next-site&utm_medium=learnpages&utm_campaign=next-website)를 살펴보기. 그런 다음 Next.js 앱에서 해당 [환경 변수를 사용](https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables)할 수 있다.
+- **Automatic HTTPS**: HTTPS는 기본적으로 활성화되어 있으며(사용자 지정 도메인 포함) 추가 설정이 필요하지 않다. SSL 인증서를 자동 갱신한다.
+
+[Vercel 문서](https://vercel.com/docs?utm_source=next-site&utm_medium=learnpages&utm_campaign=next-website)에서 플랫폼에 대해 자세히 알아볼 수 있다.
+
+### 3.1. Preview Deployment for Every Push
+
+> 아래 단계는 선택 사항이다.
+
+Vercel에 배포한 후 가능하면 다음을 수행:
+
+- 앱에 새 **branch**를 만든다.
+- 몇 가지 사항을 변경하고 GitHub에 푸시한다.
+- 새 **pull request**을 생성한다([GitHub 도움말 페이지](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)).
+
+pull request 페이지에서 `vercel` 봇의 댓글을 볼 수 있다.
+
+![vercel-bot](./images/vercel-bot.png)
+
+이 댓글 안에 있는 **미리보기** URL에 방문하면 방금 변경한 내용이 표시된다.
+
+pull request이 열려 있으면 Vercel은 푸시할 때마다 해당 branch에 대한 **미리보기 배포**를 자동으로 생성한다. 미리보기 URL은 항상 최신 미리보기 배포를 가리킨다.
+
+이 미리보기 URL을 공동 작업자와 공유하고 즉각적인 피드백을 받을 수 있다.
+
+미리 보기 배포가 양호하면 **`main`에 병합**한다. 이렇게 하면 Vercel이 프로덕션 배포를 자동으로 생성한다.
+
+### 3.2. Develop, Preview, Ship
+
+Vercel에서는 이 workflow를 **DPS**라고 한다: **D**evelop(개발), **P**review(미리 보기) 및 **S**hip(배송)
+
+- **Develop**: Next.js에 코드를 작성하고 Hot Reloading 기능을 활용하기 위해 Next.js 개발 서버를 사용한다.
+- **Preview**: GitHub의 branch에 대한 변경 사항을 푸시하고 Vercel은 URL을 통해 접근할 수 있는 미리보기 배포를 만든다. 피드백을 위해 이 미리보기 URL을 다른 사람들과 공유할 수 있다. 코드 검토 외에도 배포 미리 보기를 검토할 수 있다.
+- **Ship**: pull request를 `main`으로 병합하여 프로덕션으로 배송한다.
+
+Next.js 앱을 개발할 때 이 워크플로를 활용하는 것이 좋다. 앱을 더 빠르게 반복하는 데 도움이 된다.

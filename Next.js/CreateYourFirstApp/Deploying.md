@@ -111,3 +111,35 @@ Vercel에서는 이 workflow를 **DPS**라고 한다: **D**evelop(개발), **P**
 - **Ship**: pull request를 `main`으로 병합하여 프로덕션으로 배송한다.
 
 Next.js 앱을 개발할 때 이 워크플로를 활용하는 것이 좋다. 앱을 더 빠르게 반복하는 데 도움이 된다.
+
+<br />
+
+## 4. Other Hosting Options
+
+Next.js는 Node.js를 지원하는 모든 호스팅 제공업체에 배포할 수 있다.
+
+`package.json`의 `build` 및 `start` 스크립트:
+
+```json
+{
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  }
+}
+```
+
+자체 호스팅 제공업체에서 `build` 스크립트를 실행하면 `.next` 폴더에 프로덕션 애플리케이션이 빌드된다.
+
+```shell
+npm run build
+```
+
+빌드 후 `start` 스크립트는 하이브리드 페이지를 지원하는 Node.js 서버에서 정적으로 생성된 페이지와 서버 사이드 렌더링된 페이지 및 API Routes를 모두 제공한다.
+
+```shell
+npm run start
+```
+
+> **Tip**: `"start": "next start -p $PORT"`로 `PORT` 매개변수를 허용하도록 `package.json`의 `start` 스크립트를 사용자 정의할 수 있다.

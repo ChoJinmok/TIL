@@ -14,6 +14,7 @@
 - [CI/CD with Github](https://github.com/ChoJinmok/TIL/blob/master/ETC/CICDGithub.md)
 - [Webpack(dev),Vercel(production)에서 proxy로 COR 해결](https://github.com/ChoJinmok/TIL/blob/master/ETC/WebpackVercelProxy.md)
 - [RegExp](https://github.com/ChoJinmok/TIL/blob/master/ETC/RegExp.md)
+- [SEARCH ENGINE OPTIMIZATION](https://github.com/ChoJinmok/TIL/blob/master/ETC/SEO.md)
 
 ### Next.js
 

@@ -42,3 +42,45 @@ SEO 분야는 광범위하고 [고려해야할 것](https://learningseo.io/)들�
 4. **Ranking** – 데이터를 쿼리해서 검색 기반 관련 결과 페이지를 만든다. 검색 엔진에 다양한 순위 기준이 적용되어 사용자의 의도를 충족할 수 있는 최상의 결과를 제공한다.
 
 Googlebot은 Google의 인터넷 크롤러로, 검색 결과를 제공하기 위한 콘텐츠 데이터베이스를 만드는 데 필요한 모든 정보를 수집하는 검색 시스템의 일부이다.
+
+<br />
+
+## 4. What are Web Crawlers?
+
+검색 엔진(Google, Bing, Yandex, Baidu, Naver, Yahoo 또는 DuckDuckGo)은 웹 크롤러를 사용하여 웹 사이트와 해당 웹 페이지를 탐색해서 검색 결과를 만든다.
+
+검색 엔진마다 국가마다 [시장 점유율](https://gs.statcounter.com/search-engine-market-share)이 다르다.
+
+대부분의 국가에서는 가장 큰 검색 엔진인 Google 점유율이 가장 높다. 하지만 [중국](https://gs.statcounter.com/search-engine-market-share/all/china), [러시아](https://gs.statcounter.com/search-engine-market-share/all/russian-federation), [일본](https://gs.statcounter.com/search-engine-market-share/all/japan) 또는 [한국](https://gs.statcounter.com/search-engine-market-share/all/south-korea)의 경우 다른 검색 엔진과 지침을 확인해봐야한다.
+
+Ranking 및 Rendering과 관련하여 약간의 차이가 있지만 대부분의 검색 엔진은 크롤링 및 인덱싱과 관련하여 유사한 방식으로 작동한다.
+
+웹 크롤러는 사용자를 에뮬레이션해서 웹 사이트에서 찾은 링크를 탐색하여 페이지를 색인화하는 일종의 봇이다. 웹 크롤러는 [user-agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent)를 커스텀해서 자신을 식별한다. Google에는 [여러 웹 크롤러](https://developers.google.com/search/docs/advanced/crawling/overview-google-crawlers)가 있는데 **Googlebot Desktop**과 **Googlebot Smartphone**이 자주 사용된다.
+
+### 4.1. How Does Googlebot Work?
+
+#### `Googlebot이 웹페이지 색인을 생성하는 과정`
+
+![googlebot](./images/googlebot.avif)
+
+프로세스의 일반적인 개요는 다음과 같다:
+
+1. **URL 찾기**: Google은 [Google Search Console](https://search.google.com/search-console/welcome), 웹사이트 간 링크 또는 [XML 사이트맵](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview)을 비롯한 여러 위치의 URL을 가져온다.
+
+2. **크롤링 대기열에 추가**: URL은 Googlebot이 처리할 크롤링 대기열에 추가된다. 크롤링 대기열의 URL은 일반적으로 몇 초 동안 지속되지만 경우에 따라 특히 페이지를 렌더링, 인덱싱해야 하거나 URL이 이미 인덱싱된 경우, 새로 고쳐야 하는 경우 최대 며칠이 걸릴 수 있다. 그리고 페이지가 [렌더링 대기열](https://nextjs.org/learn/seo/rendering-and-ranking)에 들어간다.
+
+3. **HTTP 요청**: 크롤러는 헤더를 가져오기 위해 HTTP 요청을 하고 반환된 상태 코드에 따라 작동한다:
+
+   - 200 - HTML을 크롤링하고 구문 분석한다.
+   - 30X - 리디렉션을 따른다.
+   - 40X - 오류를 기록하고 HTML을 로드하지 않는다.
+   - 50X - 상태 코드가 변경되었는지 나중에 다시 확인한다.
+
+4. **렌더링 대기열**: 검색 시스템의 다양한 서비스 및 구성 요소가 HTML을 처리하고 콘텐츠를 구문 분석한다. 페이지에 일부 JavaScript 클라이언트 기반 콘텐츠가 있는 경우 URL이 렌더링 대기열에 추가될 수 있다. 렌더링 대기열은 JavaScript를 렌더링하는 데 더 많은 리소스를 사용해야 하기 때문에 Google은 더 많은 비용이 든다. 그래서 렌더링된 URL은 인터넷의 전체 페이지에서 차지하는 비율이 적다. 일부 다른 검색 엔진은 Google과 동일한 렌더링 용량을 가지고 있지 않을 수도 있어서 Next.js가 렌더링 전략에 도움을 줄 수 있다.
+
+5. **색인 생성 준비 완료**: 모든 기준이 충족되면 페이지가 색인화되고 검색 결과에 표시될 수 있게된다.
+
+> **추가 자료**
+>
+> - Google: [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)
+> - MDN: MDN: [User-Agents](https://developer.mozilla.org/es/docs/Web/HTTP/Headers/User-Agent)

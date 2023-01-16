@@ -129,3 +129,39 @@ export default function Custom500() {
 > [`HTTP 503 Service Unavailable`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503) 서버 오류 응답 코드는 서버가 요청을 처리할 준비가 되지 않았음을 나타낸다.
 
 웹 사이트가 다운되고 웹 사이트가 장기간 다운될 것으로 예상되는 경우 이 상태 코드를 반환하는 것이 좋다. 이것은 장기적으로 순위가 떨어지는 것을 방지한다.
+
+<br />
+
+## 2. What is a robots.txt File?
+
+[robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro) 파일은 페이지나 파일을 검색 엔진 크롤러에게 알린다. `robots.txt` 파일은 [좋은 봇](https://www.cloudflare.com/ko-kr/learning/bots/how-to-manage-good-bots/)이 특정 도메인에서 무언가를 요청하기 전 소비하는 웹 표준 파일이다.
+
+CMS, admin, e-commerce 사용자 계정, 일부 API routes와 같은 웹 사이트는 크롤링되어 색인이 생성되지 않도록 특정 영역을 보호할 수 있다.
+
+이러한 파일은 각 호스트의 루트에서 제공되어야 한다. 그렇지 않으면 루트 `/robots.txt` 경로를 대상 URL로 리디렉션할 수 있으며 대부분의 봇이 이를 따른다.
+
+### 2.1. Next.js 프로젝트에 robots.txt 파일을 추가하는 방법
+
+Next.js의 [정적 파일 제공](https://nextjs.org/docs/basic-features/static-file-serving) 덕분에 `robots.txt` 파일을 쉽게 추가할 수 있다. 루트 디렉터리의 `public` 폴더에 `robots.txt`라는 새 파일을 만든다.
+
+이 파일에 넣을 수 있는 항목의 예:
+
+```txt
+//robots.txt
+
+# Block all crawlers for /accounts
+User-agent: *
+Disallow: /accounts
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+```
+
+`yarn dev`로 앱을 실행하면 http://localhost:3000/robots.txt에서 사용할 수 있다. `public` 폴더 이름은 URL의 일부가 아니다.
+
+`public` 디렉토리에 다른 이름을 지정하면 안된다. static assets을 제공하는 데 사용되는 유일한 디렉토리이다.
+
+> 추가 자료
+>
+> - Google: [Create and Submit a `robots.txt` File](https://developers.google.com/search/docs/crawling-indexing/robots/create-robots-txt)

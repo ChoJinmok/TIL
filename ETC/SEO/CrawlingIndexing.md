@@ -271,3 +271,102 @@ export default SiteMap;
 >
 > - Google: [Learn about Sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview)
 > - Google: [Overview of crawling and indexing topics](https://developers.google.com/search/docs/advanced/crawling/overview)
+
+<br />
+
+## 3. Special Meta Tags for Search Engines
+
+**메타 로봇 ​​태그**는 검색 엔진이 항상 준수하는 지시어이다. 로봇 태그를 추가하면 웹 사이트의 색인 생성이 더 쉬워진다.
+
+지시와 제안에는 차이가 있다. **메타 로봇 ​​태그** 또는 [`robots.txt`](https://nextjs.org/learn/seo/crawling-and-indexing/robots-txt) 파일은 **지시문**이며 항상 준수된다. **표준 태그**는 Google이 준수 여부를 결정할 수 있는 **권장 사항**이다.
+
+페이지 수준 메타 태그의 많은 옵션이 있지만 다음은 일반적 SEO와 관련된 예시:
+
+```html
+<meta name="robots" content="noindex,nofollow" />
+```
+
+robots 태그는 아마 가장 많이 보게 될 태그일 것이다. 기본값은 `index,follow`로 따로 지정할 필요가 없으며 `all`은 유효한 대체 버전이다:
+
+```html
+<meta name="robots" content="all" />
+```
+
+위의 예에서와 같이 로봇 태그를 `noindex,nofollow`로 설정하면 검색 엔진에 다음과 같이 표시된다.
+
+- **noindex**
+
+  검색 결과에 이 페이지를 표시하지 않기 위해 사용한다. 생략하면 페이지를 인덱싱하여 검색 결과에 표시할 수 있음을 나타낸다.
+
+  웹 사이트를 구축할 때 특정 페이지를 인덱싱하지 않을 수 있다. 설정 페이지, 내부 검색 페이지, 정책 페이지 등에 설정 할 수 있다.
+
+- **nofollow**
+
+  이 페이지의 링크를 따르지 않기 위해 사용한다. 생략하면 로봇이 이 페이지의 링크를 크롤링하고 따라갈 수 있다. 다른 페이지에서 찾은 링크는 크롤링을 사용하도록 설정할 수 있으므로 `링크 A`가 페이지 `X`와 `Y`에 나타나고 `X`에는 `nofollow` 로봇 태그가 있지만 `Y`에는 태그가 없으면 Google에서 링크를 크롤링하기로 설정할 수 있다.
+
+> Google 공식 문서에서 [지시어의 전체 목록](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag#directives)을 볼 수 있다.
+
+### 3.1. Googlebot tag
+
+```html
+<meta name="googlebot" content="noindex,nofollow" />
+```
+
+때때로 `googlebot` 태그를 발견할 수 있다. 대부분의 경우 `robots`만 있지만 `googlebot` 태그는 Google에만 해당된다. Googlebot에 대한 별도의 규칙과 나머지 검색 봇에 대한 일반적인 규칙을 정할 경우 이 태그를 사용해라.
+
+충돌하는 태그가 있는 경우 더 제한적인 태그를 적용한다.
+
+크롤링을 원하지 않는 URL을 `robots.txt`에 추가할 수 있는 경우 이러한 태그가 필요한 이유가 궁금할 수 있다. 메타 태그는 요청 시 페이지를 `noindex`로 표시할 수 있는 유연성을 제공한다.
+
+예를 들어 제품 페이지에 필터를 적용했는데 결과가 없는 경우 이 페이지는 `noindex`로 설정하는 것이 일반적이다.
+
+robots.txt 파일을 통해 크롤링하는 봇으로부터 제한된 URL은 Google에서 절대 크롤링하지 않지만 페이지의 색인이 이미 생성된 후에 규칙이 추가되면 페이지의 색인이 생성된 상태로 유지될 수 있다. 페이지의 색인이 생성되지 않도록 하는 가장 좋은 방법은 `noindex` 태그를 사용하는 것다.
+
+> Google은 페이지를 크롤링하지 않고 색인을 생성하도록 결정할 수 있다. 이것은 매우 드물지만 Google이 페이지가 특정 검색 결과를 이행하기를 원하고 페이지에 사용자가 기대하는 내용이 포함되어 있다고 확신할 때 발생한다.
+
+### 3.2. Google tags
+
+#### **nositelinkssearchbox**
+
+```html
+<meta name="google" content="nositelinkssearchbox" />
+```
+
+사용자가 사이트를 검색할 때 Google 검색 결과에 사이트에 대한 다른 직접 링크와 함께 사이트에 특정한 검색창이 표시되는 경우가 있다. 이 태그는 Google에 사이트링크 검색창을 표시하지 않도록 지시한다.
+
+#### **notranslate**
+
+```html
+<meta name="google" content="notranslate" />
+```
+
+Google은 사이트 콘텐츠가 사용자가 읽고 싶어하는 언어로 되어 있지 않음을 인식하면 종종 검색 결과에 번역 링크를 제공한다.
+
+일반적으로 이렇게 하면 훨씬 더 많은 사용자 그룹에 독특하고 매력적인 콘텐츠를 제공할 수 있다. 그러나 이것을 원하지 않을 수 있다. 이 메타 태그는 Google에서 이 페이지에 대한 번역을 제공하지 않기를 원한다고 Google에 알린다.
+
+### 3.3. Example
+
+접할 수 있는 몇 가지 일반적인 태그를 살펴보았으므로 다음은 그 중 일부를 사용하는 페이지의 예시이다:
+
+```jsx
+import Head from "next/head";
+
+function IndexPage() {
+  return (
+    <div>
+      <Head>
+        <title>Meta Tag Example</title>
+        <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
+        <meta name="google" content="notranslate" key="notranslate" />
+      </Head>
+      <p>Here we show some meta tags off!</p>
+    </div>
+  );
+}
+
+export default IndexPage;
+```
+
+예제에서 볼 수 있듯이 페이지 `head`에 요소를 추가하기 위한 built-in component인 [next/head](https://nextjs.org/docs/api-reference/next/head)를 사용했다.
+
+`head`에 태그가 중복되는 것을 방지하려면 태그가 한 번만 렌더링되도록 하는 `key` 속성을 사용할 수 있다.

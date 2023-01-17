@@ -165,3 +165,109 @@ Allow: /
 > 추가 자료
 >
 > - Google: [Create and Submit a `robots.txt` File](https://developers.google.com/search/docs/crawling-indexing/robots/create-robots-txt)
+
+<br />
+
+## 3. XML Sitemaps
+
+**사이트맵**은 Google과 소통하는 가장 쉬운 방법이다. Google이 새 콘텐츠를 쉽게 감지하고 웹사이트를 더 효율적으로 크롤링할 수 있도록 웹사이트에 속한 URL과 업데이트 시기를 나타낸다.
+
+XML 사이트맵이 가장 많이 사용되기는 하지만 [RSS](https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap)나 [Atom](https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap)을 통해 만들 수도 있고, 단순성을 선호하는 경우 [Text](https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap) 파일을 통해서도 만들 수 있다.
+
+사이트맵은 사이트의 페이지, 비디오 및 기타 파일에 대한 정보와 이들 간의 관계를 제공하는 파일이다. Google과 같은 검색 엔진은 이 파일을 읽어 사이트를 보다 지능적으로 크롤링한다.
+
+According to [Google](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview):
+
+> 다음과 같은 경우 사이트맵이 필요할 수 있다:
+>
+> - **사이트의 규모가 정말 큰 경우**: Google 웹 크롤러는 새 페이지나 최근에 업데이트된 페이지 중 일부를 크롤링하는 것을 놓칠 가능성이 높다.
+> - **사이트가 분리되고 잘 연결되지 않은 콘텐츠 페이지의 대용량 아카이브가 있는 경우**: 사이트 페이지가 자연스럽게 서로를 참조하지 않는 경우 사이트맵에 나열하여 Google이 일부 페이지를 놓치지 않도록 할 수 있다.
+> - **새로운 사이트이면서 외부 링크가 거의 없는 경우**: Googlebot 및 기타 웹 크롤러는 한 페이지에서 다른 페이지로 연결되는 링크를 따라 웹을 탐색한다. 결과적으로 페이지에 연결된 다른 사이트가 없으면 Google에서 페이지를 찾지 못할 수 있다.
+> - **사이트에 리치 미디어 콘텐츠(동영상, 이미지)가 많거나 Google 뉴스에 표시되는 경우**: Google은 적절한 검색을 위해 사이트맵의 추가 정보를 고려할 수 있다.
+
+사이트맵은 훌륭한 검색 엔진 성능을 위한 필수 요소는 아니지만 봇의 크롤링 및 인덱싱을 용이하게 할 수 있다. 콘텐츠를 더 빨리 살펴보고 순위를 매길 수 있다.
+
+사이트맵을 사용하는 경우 웹사이트 전체에 새 콘텐츠가 채워지면 사이트맵을 동적으로 만드는 것이 좋다. 정적 사이트맵도 유효하지만 지속적인 검색 목적으로 사용되지 않으므로 덜 유용할 수 있다.
+
+### 3.1. Next.js 프로젝트에 사이트맵을 추가하는 방법
+
+- #### **`Manual`**
+
+  비교적 단순하고 정적인 사이트가 있는 경우 프로젝트의 공용 디렉터리에 `sitemap.xml`을 수동으로 만들 수 있다.
+
+  ```xml
+    <!-- public/sitemap.xml -->
+    <xml version="1.0" encoding="UTF-8">
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url>
+        <loc>http://www.example.com/foo</loc>
+        <lastmod>2021-06-01</lastmod>
+      </url>
+    </urlset>
+    </xml>
+  ```
+
+- #### **`getServerSideProps`**
+
+  사이트가 동적일 가능성이 높다. 이 경우 `getServerSideProps`를 활용하여 주문형 XML 사이트맵을 만들 수 있다.
+
+  `pages/sitemap.xml.js`와 같이 `pages` 디렉토리 내에 새 페이지를 만들 수 있다. 이 페이지의 목표는 API를 사용하여 동적 페이지의 URL로 알 수 있는 데이터를 얻는 것이다. 그런 다음 `/sitemap.xml`의 응답 XML 파일을 작성한다.
+
+  예시:
+
+```javascript
+//pages/sitemap.xml.js
+const EXTERNAL_DATA_URL = "https://jsonplaceholder.typicode.com/posts";
+
+function generateSiteMap(posts) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+     <!--이미 알고 있는 두 개의 URL을 수동으로 설정한다.-->
+     <url>
+       <loc>https://jsonplaceholder.typicode.com</loc>
+     </url>
+     <url>
+       <loc>https://jsonplaceholder.typicode.com/guide</loc>
+     </url>
+     ${posts
+       .map(({ id }) => {
+         return `
+       <url>
+           <loc>${`${EXTERNAL_DATA_URL}/${id}`}</loc>
+       </url>
+     `;
+       })
+       .join("")}
+   </urlset>
+ `;
+}
+
+function SiteMap() {
+  // getServerSideProps가 무거운 작업을 수행한다.
+}
+
+export async function getServerSideProps({ res }) {
+  // 사이트의 URL을 수집하기 위해 API를 호출한다.
+  const request = await fetch(EXTERNAL_DATA_URL);
+  const posts = await request.json();
+
+  // 게시물 데이터로 XML 사이트맵을 생성한다.
+  const sitemap = generateSiteMap(posts);
+
+  res.setHeader("Content-Type", "text/xml");
+  // XML을 브라우저로 보낸다.
+  res.write(sitemap);
+  res.end();
+
+  return {
+    props: {},
+  };
+}
+
+export default SiteMap;
+```
+
+> 추가 자료
+>
+> - Google: [Learn about Sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview)
+> - Google: [Overview of crawling and indexing topics](https://developers.google.com/search/docs/advanced/crawling/overview)

@@ -370,3 +370,60 @@ export default IndexPage;
 예제에서 볼 수 있듯이 페이지 `head`에 요소를 추가하기 위한 built-in component인 [next/head](https://nextjs.org/docs/api-reference/next/head)를 사용했다.
 
 `head`에 태그가 중복되는 것을 방지하려면 태그가 한 번만 렌더링되도록 하는 `key` 속성을 사용할 수 있다.
+
+<br />
+
+## 4. What are Canonical Tags?
+
+**표준** URL은 사이트의 중복된 페이지들 중 검색 엔진이 가장 대표적이라고 생각하는 페이지의 URL이다.
+
+표준 URL을 검색 엔진에 직접 전달할 수 있지만 그러지 않고 여러 URL을 그룹화할 수도 있다. Google이 여러 경로에서 URL을 찾을 수 있는 경우 자동으로 그룹화할 수 있다.
+
+구글은 이러한 것들을 탐지하는 데는 훌륭하지만, 구글의 시스템은 대규모로 작동하며 모든 경우를 다루지는 않는다. 우수한 성능을 보장하기 위해서 표준 태그는 중요하다.
+
+Google은 동일한 내용을 가진 여러 개의 URL을 찾을 경우 중복된 것으로 간주될 수 있으므로 검색 결과에서 해당 URL을 강등할 수 있다.
+
+이는 도메인 간에도 발생한다. 두 개의 다른 웹 사이트를 실행하고 각 웹 사이트에 동일한 내용을 게시하면 검색 엔진은 둘 중 하나를 선택하여 순위를 매길지 둘 다 강등할지 결정할 수 있다.
+
+여기서 표준 태그가 매우 유용하다. 그들은 구글에게 어떤 URL이 원본이고 어떤 URL이 복제됐는지 알려준다. 동일하거나 다른 도메인에 중복된 페이지가 많으면 순위가 떨어지거나 불이익을 받을 수 있다.
+
+e-commerce에서 `example.com/products/phone` 및 `example.com/phone`을 통해 제품에 접근할 수 있다고 가정해 보자.
+
+둘 다 유효하고 동작하는 URL이지만, 중복 컨텐츠 감지를 방지하기 위해 표준 태그를 사용한다. 순위에 `https://example.com/products/phone`을 고려하려면 표준 태그를 설정한다.
+
+```html
+<link rel="canonical" href="https://example.com/products/phone" />
+```
+
+제작자, 사용자, 마케팅 도구는 다양한 URL을 만들 수 있기 때문에 표준 태그는 SEO에서 기본이다.
+
+Google에서 일부 마케팅을 진행하고 있다고 가정하면 Google은 [UTM 매개 변수](https://ga-dev-tools.web.app/campaign-url-builder/)를 추가한다. 이 새로운 고유 URL은 Googlebot에 의해 인덱싱될 수 있으므로 중복된 페이지를 통합하기 위해 표준 태그를 계속 표시해야 한다.
+
+#### **Example**
+
+```jsx
+import Head from "next/head";
+
+function IndexPage() {
+  return (
+    <div>
+      <Head>
+        <title>Canonical Tag Example</title>
+        <link
+          rel="canonical"
+          href="https://example.com/blog/original-post"
+          key="canonical"
+        />
+      </Head>
+      <p>This post exists on two URLs.</p>
+    </div>
+  );
+}
+
+export default IndexPage;
+```
+
+> **추가 자료**
+>
+> - Google: [Consolidate Duplicate URLs](https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls)
+> - Next.js: [i18n Routing](https://nextjs.org/docs/advanced-features/i18n-routing)

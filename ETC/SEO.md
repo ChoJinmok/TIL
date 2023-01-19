@@ -5,3 +5,5 @@
 ### 1. [Introduction to SEO](https://github.com/ChoJinmok/TIL/blob/master/ETC/SEO/introduction.md)
 
 ### 2. [Crawling and Indexing](https://github.com/ChoJinmok/TIL/blob/master/ETC/SEO/CrawlingIndexing.md)
+
+### 3. [Rendering and Ranking](https://github.com/ChoJinmok/TIL/blob/master/ETC/SEO/RenderingRanking.md)

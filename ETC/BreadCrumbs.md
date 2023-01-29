@@ -256,3 +256,15 @@ const BirthDateTooltipText = styled.span<BirthDateTooltipTextProps>(
 
 - `Image`에 `fill`을 주고 `object-fit: "contain"`스타일을 주면되는데 `Image`컴포넌트의 `objectFit` props는 더 이상 지원하지 않기 때문에 직접 스타일링을 해줘야한다.
 - [왜 새로워진 next/Image는 더이상 objectFit을 필요로 하지 않게 됐을까?](https://velog.io/@pixartive/%EC%99%9C-%EC%83%88%EB%A1%9C%EC%9B%8C%EC%A7%84-nextImage%EB%8A%94-%EB%8D%94%EC%9D%B4%EC%83%81-objectFit%EC%9D%84-%ED%95%84%EC%9A%94%EB%A1%9C-%ED%95%98%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%90%90%EC%9D%84%EA%B9%8C)
+
+---
+
+## 17. 이메일 주소 하이퍼링크
+
+- `a`태그의 href에 `mailto:`를 붙여주면 된다.
+
+```html
+<a href="mailto:jjmok1127@gmail.com">send email</a>
+```
+
+- [참고 자료](https://habitual-history.tistory.com/entry/TIL-211027)

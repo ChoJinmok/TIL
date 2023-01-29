@@ -231,3 +231,28 @@ const BirthDateTooltipText = styled.span<BirthDateTooltipTextProps>(
 - `white-space: pre-wrap`: 연속 공백을 유지한다. 개행 문자와 `<br>`에서 줄바꿈이 일어나며 한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꾼다.
 - 단순히 줄바꿈만 하고 싶다면 `white-space: pre-line`이 더 좋은 방법이다.
 - [mdn 문서](https://developer.mozilla.org/en-US/docs/Web/CSS/white-space)
+
+---
+
+## 16. Next.js Image 비율 유지하기
+
+```jsx
+<div className="image-wrapper">
+  <Image src={...} alt={...} fill>
+</div>
+```
+
+```css
+.image-wrapper {
+  position: "relative";
+  width: "...";
+  height: "...";
+
+  & img {
+    object-fit: "contain";
+  }
+}
+```
+
+- `Image`에 `fill`을 주고 `object-fit: "contain"`스타일을 주면되는데 `Image`컴포넌트의 `objectFit` props는 더 이상 지원하지 않기 때문에 직접 스타일링을 해줘야한다.
+- [왜 새로워진 next/Image는 더이상 objectFit을 필요로 하지 않게 됐을까?](https://velog.io/@pixartive/%EC%99%9C-%EC%83%88%EB%A1%9C%EC%9B%8C%EC%A7%84-nextImage%EB%8A%94-%EB%8D%94%EC%9D%B4%EC%83%81-objectFit%EC%9D%84-%ED%95%84%EC%9A%94%EB%A1%9C-%ED%95%98%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%90%90%EC%9D%84%EA%B9%8C)

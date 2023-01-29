@@ -213,3 +213,10 @@ const BirthDateTooltipText = styled.span<BirthDateTooltipTextProps>(
 ## 13. CodeceptJS에서 hover 테스트
 
 - `moveCursorTo` 메서드 사용
+
+---
+
+## 14. 랜딩 페지(landing page)
+
+- 검색 엔진, 광고 등을 통해 접속하는 클라이언트가 최초로 보게 되는 웹페이지
+- 링크를 클릭해서 접근하도록해서 마케터가 의도한대로 하도록 하는 페이지

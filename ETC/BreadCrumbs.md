@@ -220,3 +220,14 @@ const BirthDateTooltipText = styled.span<BirthDateTooltipTextProps>(
 
 - 검색 엔진, 광고 등을 통해 접속하는 클라이언트가 최초로 보게 되는 웹페이지
 - 링크를 클릭해서 접근하도록해서 마케터가 의도한대로 하도록 하는 페이지
+
+---
+
+## 15. HTML에서 `\n`(개행) 인식하기
+
+- 원래 HTML에서 `\n`은 한칸 띄우기로 인식한다.
+- CSS로 `white-space`를 설정해주면 `\n`을 인식한다.
+- `white-space: pre-line`: 연속 공백을 하나로 합쳐준다. 개행 문자와 `<br>`에서 줄바꿈이 일어나며 한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꾼다.
+- `white-space: pre-wrap`: 연속 공백을 유지한다. 개행 문자와 `<br>`에서 줄바꿈이 일어나며 한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꾼다.
+- 단순히 줄바꿈만 하고 싶다면 `white-space: pre-line`이 더 좋은 방법이다.
+- [mdn 문서](https://developer.mozilla.org/en-US/docs/Web/CSS/white-space)

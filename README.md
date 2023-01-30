@@ -59,6 +59,7 @@
 - [flex: 1](https://github.com/ChoJinmok/TIL/blob/master/HTML&CSS/flex1.md)
 - [aria-label, aria-labelledby, aria-describedby ?](https://github.com/ChoJinmok/TIL/blob/master/HTML&CSS/ARIA.md)
 - [CSS opacity, visibility, display](https://github.com/ChoJinmok/TIL/blob/master/HTML&CSS/OpacityVisibilityDisplay.md)
+- [`position: sticky`가 `overflow: hidden`일때 왜 적용되지 않을까](https://github.com/ChoJinmok/TIL/blob/master/HTML&CSS/sticky_with_hidden.md)
 
 ### TDD
 

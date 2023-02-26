@@ -52,6 +52,7 @@
 - [Custom createElement](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/CustomCreateElement.md)
 - [DOM Events](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/DOMEvents.md)
 - [이벤트 전파](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/EventPropagation.md)
+- [자바스크립트 비동기 처리의 이해 및 사용 패턴](https://github.com/ChoJinmok/TIL/blob/master/JavaScript/async-patterns.md)
 
 ### HTML & CSS
 

@@ -73,3 +73,55 @@ a(() => {
 // a
 // b
 ```
+
+- 콜백지옥
+
+```javascript
+function a(cb) {
+  setTimeout(() => {
+    console.log("a");
+    cb();
+  });
+}
+
+function b(cb) {
+  setTimeout(() => {
+    console.log("b");
+    cb();
+  });
+}
+
+function c(cb) {
+  setTimeout(() => {
+    console.log("c");
+    cb();
+  });
+}
+
+function d(cb) {
+  setTimeout(() => {
+    console.log("d");
+    cb();
+  });
+}
+
+a(() => {
+  b(() => {
+    c(() => {
+      d(() => {
+        console.log("Done!");
+      });
+    });
+  });
+});
+
+// 콘솔 창
+// a
+// b
+// c
+// d
+// Done!
+```
+
+- 각각의 순서를 보장하기 위해 어쩔 수 없이 위와 같이 코드를 작성했어야 했다.
+- 순서는 보장됐지만 코드가 복잡해진다. (마치 개미지옥 같음)

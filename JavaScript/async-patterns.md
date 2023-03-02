@@ -161,3 +161,89 @@ a().then(() => {
 - `Promise` 생성자 함수는 무언가를 기다리는 것을 `약속`하는 인스턴스를 반환한다는 의미로 이해하면 된다.
 - 여기서 약속은 `resolve`라는 매개변수가 어느 시점에 실행될 것인지에 대한 약속
 - 비동기라는 개념에서 `Promise` 생성자와 매개변수 resolve로 어느 시점에 다음 내용의 실행을 보장할것인지 명시하는 것이 가장 중요하다.
+
+```javascript
+function a() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("a");
+      resolve();
+    });
+  });
+}
+
+function b() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("b");
+      resolve();
+    });
+  });
+}
+
+function c() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("c");
+      resolve();
+    });
+  });
+}
+
+function d() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("d");
+      resolve();
+    });
+  });
+}
+
+a().then(() => {
+  b().then(() => {
+    c().then(() => {
+      d();
+    });
+  });
+});
+
+// 콘솔 창
+// a
+// b
+// c
+// d
+```
+
+- 위와 같은 코드는 정상적으로 동작하지만 잘못된 방법이다. (콜백 지옥과 유사하다.)
+- then 메서드의 콜백함수가 promise 객체를 return한다면 then 메서드가 끝나는 시점에 다시 then 메서드를 사용할 수 있다.
+
+```javascript
+a().then(() => {
+  return b().then();
+});
+
+a()
+  .then(() => {
+    return b();
+  })
+  .then();
+
+a()
+  .then(() => b())
+  .then();
+```
+
+```javascript
+a()
+  .then(() => b())
+  .then(() => c())
+  .then(() => d());
+
+// 콘솔 창
+// a
+// b
+// c
+// d
+```
+
+- then 메서드를 체인형태로 이어서 사용하려면 then 메서드의 콜백 함수가 promise 객체를 반환해야한다.

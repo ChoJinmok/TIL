@@ -162,6 +162,8 @@ a().then(() => {
 - 여기서 약속은 `resolve`라는 매개변수가 어느 시점에 실행될 것인지에 대한 약속
 - 비동기라는 개념에서 `Promise` 생성자와 매개변수 resolve로 어느 시점에 다음 내용의 실행을 보장할것인지 명시하는 것이 가장 중요하다.
 
+#### **`then 체인`**
+
 ```javascript
 function a() {
   return new Promise((resolve) => {
@@ -247,3 +249,26 @@ a()
 ```
 
 - then 메서드를 체인형태로 이어서 사용하려면 then 메서드의 콜백 함수가 promise 객체를 반환해야한다.
+
+#### **`Async Await`**
+
+- `Promise`생성자가 생성한 promise 객체앞에 `await`키워드를 작성할 수 있다. (then 메서드와 조건이 같다.)
+
+```javascript
+async function asyncFn() {
+  await a();
+  await b();
+  await c();
+  await d();
+}
+
+asyncFn();
+
+// 콘솔 창
+// a
+// b
+// c
+// d
+```
+
+- `await`는 `async` function 내부에서 사용할 수 있고 순서를 보장해준다.

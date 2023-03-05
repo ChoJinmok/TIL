@@ -272,3 +272,56 @@ asyncFn();
 ```
 
 - `await`는 `async` function 내부에서 사용할 수 있고 순서를 보장해준다.
+
+#### **`reject`**
+
+- promise가 코드의 실행 위치를 보장해주는 약속을 지키지 못하는 상황이 되면 reject가 실행된다.
+- reject를 활용해서 약속을 지키지 못한 이유와 같은 메세지를 바깥쪽으로 넘겨줄 수 있다.
+- reject가 실행될 때 catch메서드로 넘겨준 콜백함수가 동작한다.
+- 로직에 문제가 있을 떄 reject가 실행되도록 Promise 생성자를 설계하면 된다.
+
+```javascript
+function a() {
+  return new Promise((resolve, reject) => {
+    if (isError) {
+      reject("Sorry...");
+      // return;
+      // 아래쪽 코드가 실행되는 것을 방지 해주고 싶은 경우 return
+    }
+
+    setTimeout(() => {
+      console.log("a");
+      resolve();
+    });
+  });
+}
+
+a()
+  .then(() => {
+    console.log("b");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+// isError = false
+// a
+// b
+
+// isError = true (b는 출력되지 않는다.)
+// Sorry...
+// a
+```
+
+```javascript
+async function asyncFn() {
+  try {
+    await a();
+    console.log("b");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+asyncFn();
+```

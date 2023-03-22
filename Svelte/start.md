@@ -6,3 +6,4 @@
 
 1. [선언적 렌더링](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start/selective-rendering.md)
 2. [조건문](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start/conditional-statement.md)
+3. [반복문](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start/repeated-statement.md)

@@ -9,3 +9,4 @@
 3. [반복문](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start/repeated-statement.md)
 4. [이벤트 핸들링](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start/event-handling.md)
 5. [컴포넌트](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start/component.md)
+6. [store](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start/store.md)

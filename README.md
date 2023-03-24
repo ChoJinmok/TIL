@@ -72,3 +72,4 @@
 
 - [Svelte의 특징](https://github.com/ChoJinmok/TIL/blob/master/Svelte/feature.md)
 - [시작하기](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start.md)
+- [라이프사이클](https://github.com/ChoJinmok/TIL/blob/master/Svelte/life-cycle.md)

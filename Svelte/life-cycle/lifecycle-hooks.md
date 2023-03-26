@@ -1,4 +1,4 @@
-# 2. onMount, onDestroy
+# 2. Lifecycle Hooks
 
 #### **`App.svelte`**
 
@@ -23,6 +23,8 @@
   <Something />
 {/if}
 ```
+
+## onMount, onDestroy
 
 #### **`Something.svelte`**
 
@@ -71,4 +73,47 @@
 </script>
 
 <h1>Something..</h1>
+```
+
+## beforeUpdate, afterUpdate안에
+
+- beforeUpdate(화면이 바뀓기전)와 afterUpdate(화면이 바뀐 후)는 반응성을 가지는 데이터가 할당을 통해서 갱신이 되면 실행된다. (컴포넌트가 연결될 때도 동작)
+- 반응성을 가지는 로직이 beforeUpdate와 afterUpdate안에 있으면 무한 루프에 빠진다. -> 꼭 넣어야하는 상황이면 조건문으로 데이터가 갱신되지 않도록 한다.
+
+```html
+<script lang="ts">
+  import { onMount, onDestroy, beforeUpdate, afterUpdate } from "svelte";
+
+  let name = "Something..";
+  let h1;
+
+  function moreDot() {
+    name += ".";
+  }
+
+  beforeUpdate(() => {
+    console.log("Before update!");
+    // 컴포넌트가 화면에 연결되서 화면에 출력되긴 전엔 h1은 undefined
+    console.log(h1 && h1.innerText);
+    // 마운트된 후 h1을 클릭하면 .이 추가 되기 전에 출력된다.
+  });
+
+  onMount(() => {
+    console.log("Mounted!");
+  });
+
+  afterUpdate(() => {
+    console.log("After update!");
+    console.log(h1.innerText);
+    // 점이 추가된 h1이 출력
+  });
+
+  onDestroy(() => {
+    console.log("Destoryed!");
+  });
+</script>
+```
+
+```javascript
+<h1 on:click={moreDot}>{name}</h1>
 ```

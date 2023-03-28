@@ -5,3 +5,4 @@
 1. [기본 개념](https://github.com/ChoJinmok/TIL/blob/master/Svelte/lifecycle/basic.md)
 2. [Lifecycle Hooks](https://github.com/ChoJinmok/TIL/blob/master/Svelte/lifecycle/lifecycle-hooks.md)
 3. [Lifecycle 모듈화](https://github.com/ChoJinmok/TIL/blob/master/Svelte/lifecycle/lifecycle-modularization.md)
+4. [tick](https://github.com/ChoJinmok/TIL/blob/master/Svelte/lifecycle/tick.md)

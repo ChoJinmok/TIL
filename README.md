@@ -74,3 +74,4 @@
 - [시작하기](https://github.com/ChoJinmok/TIL/blob/master/Svelte/start.md)
 - [라이프사이클](https://github.com/ChoJinmok/TIL/blob/master/Svelte/lifecycle.md)
 - [보간법](https://github.com/ChoJinmok/TIL/blob/master/Svelte/interpolation.md)
+- [반응성](https://github.com/ChoJinmok/TIL/blob/master/Svelte/reactivity.md)

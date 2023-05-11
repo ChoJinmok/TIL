@@ -75,3 +75,7 @@
 - [라이프사이클](https://github.com/ChoJinmok/TIL/blob/master/Svelte/lifecycle.md)
 - [보간법](https://github.com/ChoJinmok/TIL/blob/master/Svelte/interpolation.md)
 - [반응성](https://github.com/ChoJinmok/TIL/blob/master/Svelte/reactivity.md)
+
+### React Native
+
+- [React Native 처음 설치시 있는 요소들 정리](https://github.com/ChoJinmok/TIL/blob/master/RN/init.md)

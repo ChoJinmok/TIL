@@ -79,3 +79,4 @@
 ### React Native
 
 - [React Native 처음 설치시 있는 요소들 정리](https://github.com/ChoJinmok/TIL/blob/master/RN/init.md)
+- [React Native 기초](https://github.com/ChoJinmok/TIL/blob/master/RN/reactNativeStarter.md)

@@ -9,4 +9,4 @@
   - `flexDirection: column`
 - View의 width, height 설정
   - 숫자로 static하게 넣는 경우는 잘 없음. (스크린 사이즈에 따라 다르게 보일 수 밖에 없어짐. 아이콘, 아바타 등의 경우에는 예외)
-  - 반응형을 고려하며(다양한 스크린에서 동일하게 보이게) 작업하려면 `flex` 스타일 속성으로 비율로 너비와 높이를 정해준다.
+  - 반응형을 고려하며(다양한 스크린에서 동일하게 보이게) 작업하려면 `flex` 스타일 속성으로 비율로 너비와 높이를 정해준다. ([예시코드](https://github.com/ChoJinmok/namok-weather/blob/b8e6e351a6bc43ac50fc8f680776add3e07b2294/App.tsx))
